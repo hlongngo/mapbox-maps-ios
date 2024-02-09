@@ -1,4 +1,4 @@
-internal func interpolateHeading(from: Heading, to: Heading, fraction: Double) -> Heading {
+public func interpolateHeading(from: Heading, to: Heading, fraction: Double) -> Heading {
     let direction = directionInterpolator.interpolate(
         from: from.direction,
         to: to.direction,

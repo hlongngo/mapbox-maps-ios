@@ -1,11 +1,11 @@
-internal protocol ValueAnimatorParticipant: AnyObject {
+public protocol ValueAnimatorParticipant: AnyObject {
     /// Is participant running.
     var running: Bool { get set }
 }
 
 /// ValueInterpolator takes an input stream of interpolatable values and produces interpolated values on demand.
-internal final class ValueInterpolator<Value>: ValueAnimatorParticipant {
-    typealias InterpolateFunc = (/*from*/ Value, /*to*/ Value, /*fraction*/ Double) -> Value
+public final class ValueInterpolator<Value>: ValueAnimatorParticipant {
+    public typealias InterpolateFunc = (/*from*/ Value, /*to*/ Value, /*fraction*/ Double) -> Value
     private struct ValueInTime {
         var value: Value
         var date: Date
@@ -24,7 +24,7 @@ internal final class ValueInterpolator<Value>: ValueAnimatorParticipant {
     private var state: State?
     private var token: AnyCancelable?
 
-    var running: Bool = false {
+    public var running: Bool = false {
         didSet {
             if running {
                 token = input.observe { [weak self] newValue in
@@ -40,7 +40,7 @@ internal final class ValueInterpolator<Value>: ValueAnimatorParticipant {
         interpolate(for: nowTimestamp.value)
     }
 
-    init(
+    public init(
         duration: TimeInterval,
         input: Signal<Value>,
         interpolate: @escaping InterpolateFunc,
@@ -89,10 +89,10 @@ internal final class ValueInterpolator<Value>: ValueAnimatorParticipant {
 /// Every value in output stream are calculated via one or more interpolators upon every triggering event.
 /// Value animator starts producing values and enables the underlying interpolators only when there are subscribers to it's output.
 /// When the last subscriber is gone, the interpolators are stopped and triggered stream is not observed.
-internal final class ValueAnimator<Output> {
-    typealias CalculateOutput = () -> Output
+public final class ValueAnimator<Output> {
+    public typealias CalculateOutput = () -> Output
 
-    var output: Signal<Output> { outputSubject.signal }
+    public var output: Signal<Output> { outputSubject.signal }
     private let outputSubject = SignalSubject<Output>()
     private let trigger: Signal<Void>
     private let participants: [ValueAnimatorParticipant]
@@ -119,7 +119,7 @@ internal final class ValueAnimator<Output> {
     /// Initializes an animator for two different-typed values.
     ///
     /// The resulting output is defined by the `reduce` function.
-    convenience init<V1, V2>(
+    public convenience init<V1, V2>(
         _ v1: ValueInterpolator<V1>,
         _ v2: ValueInterpolator<V2>,
         trigger: Signal<Void>,
@@ -130,7 +130,7 @@ internal final class ValueAnimator<Output> {
         }
     }
 
-    private init(trigger: Signal<Void>,
+    public init(trigger: Signal<Void>,
                  participants: [ValueAnimatorParticipant],
                  calculateOutput: @escaping CalculateOutput) {
         self.trigger = trigger

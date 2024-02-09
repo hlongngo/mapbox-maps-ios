@@ -1,7 +1,7 @@
 /// `SignalSubject` is used to send events to `Signal` subscribers.
 ///
 /// It doesn't store current values, like `PassthroughSubject` from Combine.
-typealias SignalSubject<Payload> = ClosureHandlersStore<Payload, Void>
+public typealias SignalSubject<Payload> = ClosureHandlersStore<Payload, Void>
 
 extension SignalSubject where ReturnType == Void {
     /// Creates SignalSubject from callback-style subscription method.

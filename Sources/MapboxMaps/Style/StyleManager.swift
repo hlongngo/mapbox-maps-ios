@@ -2,7 +2,7 @@
 @_implementationOnly import MapboxCommon_Private
 import UIKit
 
-protocol StyleProtocol: AnyObject {
+public protocol StyleProtocol: AnyObject {
     var isStyleLoaded: Bool { get }
     var isStyleRootLoaded: Signal<Bool> { get }
     var styleDefaultCamera: CameraOptions { get }
@@ -39,7 +39,7 @@ protocol StyleProtocol: AnyObject {
     func imageExists(withId id: String) -> Bool
 }
 
-internal extension StyleProtocol {
+extension StyleProtocol {
     func addImage(_ image: UIImage, id: String, sdf: Bool = false, contentInsets: UIEdgeInsets = .zero) throws {
         try addImage(image, id: id, sdf: sdf, contentInsets: contentInsets)
     }
@@ -406,7 +406,7 @@ public class StyleManager {
         return styleManager.isStyleLoaded()
     }
 
-    var isStyleRootLoaded: Signal<Bool> { styleReconciler.isStyleRootLoaded }
+    public var isStyleRootLoaded: Signal<Bool> { styleReconciler.isStyleRootLoaded }
 
     /// MapStyle represents style configuration to load the style.
     ///

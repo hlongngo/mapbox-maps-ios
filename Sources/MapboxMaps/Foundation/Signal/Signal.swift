@@ -114,7 +114,7 @@ extension Signal {
         }
     }
 
-    func skipNil<U>() -> Signal<U> where Payload == U? {
+    public func skipNil<U>() -> Signal<U> where Payload == U? {
         compactMap { $0 }
     }
 

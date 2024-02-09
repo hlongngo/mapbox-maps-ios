@@ -19,7 +19,7 @@ extension HeadingProvider {
 }
 
 extension ObjectWrapper: HeadingObserver where T == (Heading) -> Void {
-    func onHeadingUpdate(_ heading: Heading) {
+    public func onHeadingUpdate(_ heading: Heading) {
         subject(heading)
     }
 }

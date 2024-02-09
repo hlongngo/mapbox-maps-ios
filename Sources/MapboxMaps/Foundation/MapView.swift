@@ -102,7 +102,7 @@ open class MapView: UIView, SizeTrackingLayerDelegate {
 
     private let dependencyProvider: MapViewDependencyProviderProtocol
 
-    private let displayLinkSignalSubject = SignalSubject<Void>()
+    public let displayLinkSignalSubject = SignalSubject<Void>()
     private let safeAreaSignalSubject = CurrentValueSignalSubject(UIEdgeInsets())
 
     private let notificationCenter: NotificationCenterProtocol

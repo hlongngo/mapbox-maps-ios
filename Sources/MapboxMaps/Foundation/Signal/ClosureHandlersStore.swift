@@ -1,8 +1,8 @@
 /// Allows to store a closure handlers for some event.
-class ClosureHandlersStore<Payload, ReturnType> {
-    typealias Handler = (Payload) -> ReturnType
-    typealias ObservationHandler = (Bool) -> Void
-    typealias ObjectHandler = ObjectWrapper<Handler>
+public class ClosureHandlersStore<Payload, ReturnType> {
+    public typealias Handler = (Payload) -> ReturnType
+    public typealias ObservationHandler = (Bool) -> Void
+    public typealias ObjectHandler = ObjectWrapper<Handler>
 
     var onObserved: ObservationHandler?
 
@@ -33,25 +33,25 @@ class ClosureHandlersStore<Payload, ReturnType> {
 }
 
 extension ClosureHandlersStore: Sequence {
-    struct Iterator: IteratorProtocol {
+    public struct Iterator: IteratorProtocol {
         private var proxy: Array<ObjectHandler>.Iterator
         init(proxy: Array<ObjectHandler>.Iterator) {
             self.proxy = proxy
         }
 
-        mutating func next() -> Handler? {
+        mutating public func next() -> Handler? {
             proxy.next()?.subject
         }
     }
 
-    func makeIterator() -> Iterator {
+    public func makeIterator() -> Iterator {
         return Iterator(proxy: objectHandlers.makeIterator())
     }
 }
 
 extension ClosureHandlersStore where ReturnType == Void {
     /// Use `signal` to subscribe to events.
-    var signal: Signal<Payload> {
+    public var signal: Signal<Payload> {
         Signal { [weak self] handler in
             self?.add(handler: handler) ?? .empty
         }

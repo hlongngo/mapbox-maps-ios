@@ -2,14 +2,14 @@ import UIKit
 
 /// `Ref` is a read-only reference to an arbitrary value captured by closure.
 /// It is used to pass the value, that might be changed over time.
-struct Ref<Value> {
-    let getter: () -> Value
+public struct Ref<Value> {
+    public let getter: () -> Value
 
     /// The referenced value.
-    var value: Value { getter() }
+    public var value: Value { getter() }
 
     /// Creates a reference from the given closure.
-    init(_ getter: @escaping () -> Value) {
+    public init(_ getter: @escaping () -> Value) {
         self.getter = getter
     }
 }
@@ -79,7 +79,7 @@ extension Ref where Value: AnyObject {
     }
 }
 
-extension Ref where Value == Date {
+public extension Ref where Value == Date {
     static let now = Ref { Date() }
 }
 

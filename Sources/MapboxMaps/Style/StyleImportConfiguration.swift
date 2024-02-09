@@ -1,8 +1,8 @@
 /// Defines the available light presets in the Mapbox Standard Style.
-#if swift(>=5.8)
-    @_documentation(visibility: public)
-#endif
-@_spi(Experimental)
+//#if swift(>=5.8)
+//    @_documentation(visibility: public)
+//#endif
+//@_spi(Experimental)
 public struct StandardLightPreset: RawRepresentable, Hashable {
 #if swift(>=5.8)
     @_documentation(visibility: public)
@@ -42,21 +42,21 @@ public struct StandardLightPreset: RawRepresentable, Hashable {
 }
 
 /// Specifies configuration parameters for style imports.
-#if swift(>=5.8)
-    @_documentation(visibility: public)
-#endif
-@_spi(Experimental)
+//#if swift(>=5.8)
+//    @_documentation(visibility: public)
+//#endif
+//@_spi(Experimental)
 public struct StyleImportConfiguration: Equatable {
     /// Style import identifier.
-#if swift(>=5.8)
-    @_documentation(visibility: public)
-#endif
+//#if swift(>=5.8)
+//    @_documentation(visibility: public)
+//#endif
     public var importId: String
 
     /// JSON dictionary of parameters.
-#if swift(>=5.8)
-    @_documentation(visibility: public)
-#endif
+//#if swift(>=5.8)
+//    @_documentation(visibility: public)
+//#endif
     public var config: JSONObject
 
     /// Creates a configuration.
