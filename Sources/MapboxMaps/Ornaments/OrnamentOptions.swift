@@ -154,7 +154,7 @@ public struct AttributionButtonOptions: Equatable {
     /// as long as the map view is visible.
     /// :nodoc:
     /// Restricted API. Please contact Mapbox to discuss your use case if you intend to use this property.
-    @_spi(Restricted) public var visibility: OrnamentVisibility = .visible
+    public var visibility: OrnamentVisibility = .visible
 
     /// Initializes an `AttributionButtonOptions`.
     /// - Parameters:
@@ -187,7 +187,7 @@ public struct LogoViewOptions: Equatable {
     /// as the map view is visible.
     /// :nodoc:
     /// Restricted API. Please contact Mapbox to discuss your use case if you intend to use this property.
-    @_spi(Restricted) public var visibility: OrnamentVisibility = .visible
+    public var visibility: OrnamentVisibility = .visible
 
     /// Initializes a `LogoViewOptions`.
     /// - Parameters:
