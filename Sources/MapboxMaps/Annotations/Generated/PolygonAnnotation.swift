@@ -37,21 +37,54 @@ public struct PolygonAnnotation: Annotation, Equatable {
         get { gestureHandlers.value.longPress }
         set { gestureHandlers.value.longPress = newValue }
     }
-    
+
+    /// The handler is invoked when the user begins to drag the annotation.
+    ///
+    /// The annotation should have `isDraggable` set to `true` to make id draggable.
+    ///
+    /// - Note: In SwiftUI, draggable annotations are not supported.
+    ///
+    /// The handler receives the `annotation` and the `context` parameters of the gesture:
+    /// - Use the `annotation` inout property to update properties of the annotation.
+    /// - The `context` contains position of the gesture.
+    /// Return `true` to allow dragging to begin, or `false` to prevent it and propagate the gesture to the map's other annotations or layers.
+    public var dragBeginHandler: ((inout PolygonAnnotation, MapContentGestureContext) -> Bool)? {
+        get { gestureHandlers.value.dragBegin }
+        set { gestureHandlers.value.dragBegin = newValue }
+    }
+
+    /// The handler is invoked when annotation is being dragged.
+    ///
+    /// The handler receives the `annotation` and the `context` parameters of the gesture:
+    /// - Use the `annotation` inout property to update properties of the annotation.
+    /// - The `context` contains position of the gesture.
+    public var dragChangeHandler: ((inout PolygonAnnotation, MapContentGestureContext) -> Void)? {
+        get { gestureHandlers.value.dragChange }
+        set { gestureHandlers.value.dragChange = newValue }
+    }
+
+    /// The handler receives the `annotation` and the `context` parameters of the gesture:
+    /// - Use the `annotation` inout property to update properties of the annotation.
+    /// - The `context` contains position of the gesture.
+    public var dragEndHandler: ((inout PolygonAnnotation, MapContentGestureContext) -> Void)? {
+        get { gestureHandlers.value.dragEnd }
+        set { gestureHandlers.value.dragEnd = newValue }
+    }
+
     /// JSON convertible properties associated with the annotation, used to enrich Feature GeoJSON `properties["custom_data"]` field.
     public var customData = JSONObject()
 
     /// Properties associated with the annotation.
     ///
-    /// - Note: This propert doesn't participate in `Equatable` comparisions and will strip non-JSON values when encoding to Feature GeoJSON.
+    /// - Note: This property doesn't participate in `Equatable` comparisions and will strip non-JSON values when encoding to Feature GeoJSON.
     @available(*, deprecated, message: "Use customData instead.")
     public var userInfo: [String: Any]? {
         get { _userInfo.value }
         set { _userInfo.value = newValue }
     }
-    
+
     private var _userInfo: AlwaysEqual<[String: Any]?> = nil
-    private var gestureHandlers = AlwaysEqual(value: AnnotationGestureHandlers())
+    private var gestureHandlers = AlwaysEqual(value: AnnotationGestureHandlers<PolygonAnnotation>())
 
     var layerProperties: [String: Any] {
         var properties: [String: Any] = [:]
@@ -104,47 +137,35 @@ public struct PolygonAnnotation: Annotation, Equatable {
 
 }
 
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
 @_spi(Experimental) extension PolygonAnnotation {
 
     /// Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func fillSortKey(_ newValue: Double) -> Self {
         with(self, setter(\.fillSortKey, newValue))
     }
 
     /// The color of the filled part of this layer. This color can be specified as `rgba` with an alpha component and the color's opacity will not affect the opacity of the 1px stroke, if it is used.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func fillColor(_ newValue: StyleColor) -> Self {
         with(self, setter(\.fillColor, newValue))
     }
 
     /// The opacity of the entire fill layer. In contrast to the `fill-color`, this value will also affect the 1px stroke around the fill, if the stroke is used.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func fillOpacity(_ newValue: Double) -> Self {
         with(self, setter(\.fillOpacity, newValue))
     }
 
     /// The outline color of the fill. Matches the value of `fill-color` if unspecified.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func fillOutlineColor(_ newValue: StyleColor) -> Self {
         with(self, setter(\.fillOutlineColor, newValue))
     }
 
     /// Name of image in sprite to use for drawing image fills. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func fillPattern(_ newValue: String) -> Self {
         with(self, setter(\.fillPattern, newValue))
     }
@@ -156,9 +177,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func onTapGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
         with(self, setter(\.tapHandler, handler))
     }
@@ -167,9 +186,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    #if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func onTapGesture(handler: @escaping () -> Void) -> Self {
         onTapGesture { _ in
             handler()
@@ -183,9 +200,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-#if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func onLongPressGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
         with(self, setter(\.longPressHandler, handler))
     }
@@ -194,9 +209,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    #if swift(>=5.8)
     @_documentation(visibility: public)
-#endif
     public func onLongPressGesture(handler: @escaping () -> Void) -> Self {
         onLongPressGesture { _ in
             handler()

@@ -138,7 +138,7 @@ extension Signal {
         }
     }
 
-    func skipRepeats() -> Signal where Payload: Equatable {
+    public func skipRepeats() -> Signal where Payload: Equatable {
         skipRepeats(by: ==)
     }
 
