@@ -12,7 +12,7 @@ public protocol Annotation {
     var userInfo: [String: Any]? { get set }
 }
 
-extension Array where Element: Annotation {
+public extension Array where Element: Annotation {
     /// Deduplicates annotations.
     mutating func removeDuplicates() {
         let duplicates = self.removeDuplicates(by: \.id)
@@ -23,10 +23,10 @@ extension Array where Element: Annotation {
     }
 }
 
-extension StyleProtocol {
-    func apply<T: Annotation>(annotationsDiff diff: CollectionDiff<T, String>, sourceId: String, feature: (T) -> Feature) {
+public extension StyleProtocol {
+    func apply<T: Annotation>(annotationsDiff diff: CollectionDiff<[T]>, sourceId: String, feature: (T) -> Feature) {
         if !diff.remove.isEmpty {
-            removeGeoJSONSourceFeatures(forSourceId: sourceId, featureIds: diff.remove, dataId: nil)
+            removeGeoJSONSourceFeatures(forSourceId: sourceId, featureIds: diff.remove.map(\.id), dataId: nil)
         }
         if !diff.update.isEmpty {
             updateGeoJSONSourceFeatures(forSourceId: sourceId, features: diff.update.map(feature), dataId: nil)

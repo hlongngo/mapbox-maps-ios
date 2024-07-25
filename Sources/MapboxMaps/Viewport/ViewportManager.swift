@@ -102,6 +102,7 @@ public final class ViewportManager {
     public func transition(to toState: ViewportState,
                            transition: ViewportTransition? = nil,
                            completion: ((_ success: Bool) -> Void)? = nil) {
+        sendTelemetry(\.viewportTransition)
         impl.transition(to: toState, transition: transition, completion: completion)
     }
 
@@ -122,9 +123,10 @@ public final class ViewportManager {
     /// Use this state to set camera options instead of ``MapboxMap/setCamera(to:)``
     /// if you use experimental ``ViewportOptions/usesSafeAreaInsetsAsPadding``.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func makeCameraViewportState(camera: CameraOptions) -> ViewportState {
-        CameraViewportState(cameraOptions: Signal(just: camera), mapboxMap: mapboxMap, safeAreaPadding: impl.safeAreaPadding)
+        sendTelemetry(\.viewportCameraState)
+        return CameraViewportState(cameraOptions: Signal(just: camera), mapboxMap: mapboxMap, safeAreaPadding: impl.safeAreaPadding)
     }
 
     func makeDefaultStyleViewportState(padding: UIEdgeInsets) -> ViewportState {
@@ -138,7 +140,8 @@ public final class ViewportManager {
     ///                      with the default value specified for all parameters.
     /// - Returns: The newly-created ``FollowPuckViewportState``.
     public func makeFollowPuckViewportState(options: FollowPuckViewportStateOptions = .init()) -> FollowPuckViewportState {
-        FollowPuckViewportState(
+        sendTelemetry(\.viewportFollowState)
+        return FollowPuckViewportState(
             options: options,
             mapboxMap: mapboxMap,
             onPuckRender: onPuckRender,
@@ -149,6 +152,7 @@ public final class ViewportManager {
     /// - Parameter options: configuration options used when creating ``OverviewViewportState``.
     /// - Returns: The newly-created ``OverviewViewportState``.
     public func makeOverviewViewportState(options: OverviewViewportStateOptions) -> OverviewViewportState {
+        sendTelemetry(\.viewportOverviewState)
         return OverviewViewportState(
             options: options,
             mapboxMap: mapboxMap,

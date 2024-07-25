@@ -16,8 +16,8 @@ public struct PuckRenderingData: Equatable {
     }
 }
 
-extension PuckRenderingData {
-    public init?(locations: [Location]? = nil, heading: Heading? = nil) {
+public extension PuckRenderingData {
+    init?(locations: [Location]? = nil, heading: Heading? = nil) {
         guard let location = locations?.last else { return nil }
         self.location = location
         self.heading = heading

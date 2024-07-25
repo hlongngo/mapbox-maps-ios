@@ -6,7 +6,7 @@ import Foundation
 ///
 /// - Note: The file format produced by MapRecorder is experimental and there is no guarantee for version cross-compatibility.
 /// The set of recorded APIs and their parameters might change in future releases.
-@_spi(Experimental) public final class MapRecorder {
+ public final class MapRecorder {
     let recorder: MapboxCoreMaps.MapRecorder
 
     internal init(mapView: CoreMap) throws {

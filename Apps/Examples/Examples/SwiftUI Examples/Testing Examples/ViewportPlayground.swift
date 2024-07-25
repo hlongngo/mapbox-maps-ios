@@ -1,6 +1,6 @@
 import SwiftUI
 import MapboxMaps
-@_spi(Experimental) import MapboxMaps
+ import MapboxMaps
 
 @available(iOS 14.0, *)
 struct ViewportPlayground: View {

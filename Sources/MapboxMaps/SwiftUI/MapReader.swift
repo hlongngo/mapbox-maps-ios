@@ -15,7 +15,7 @@ import SwiftUI
 /// }
 /// ```
     @_documentation(visibility: public)
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 public struct MapReader<Content: View>: View {
     @_documentation(visibility: public)

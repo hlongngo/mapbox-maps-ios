@@ -1,11 +1,11 @@
-// swift-tools-version:5.8
+// swift-tools-version:5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 import Foundation
 
-let coreMaps = MapsDependency.coreMaps(version: "11.2.0")
-let common = MapsDependency.common(version: "24.2.0")
+let coreMaps = MapsDependency.coreMaps(version: "11.4.0-rc.2")
+let common = MapsDependency.common(version: "24.4.0-rc.2")
 
 let mapboxMapsPath: String? = nil
 

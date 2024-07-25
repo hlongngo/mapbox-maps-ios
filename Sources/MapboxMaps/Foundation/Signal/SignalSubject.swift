@@ -3,7 +3,7 @@
 /// It doesn't store current values, like `PassthroughSubject` from Combine.
 public typealias SignalSubject<Payload> = ClosureHandlersStore<Payload, Void>
 
-extension SignalSubject where ReturnType == Void {
+public extension SignalSubject where ReturnType == Void {
     /// Creates SignalSubject from callback-style subscription method.
     ///
     ///  Subscribes to the underlying event only when there are at least one subscriber.

@@ -26,14 +26,14 @@ public struct SourceType: ExpressibleByStringLiteral, RawRepresentable, Codable,
     public static let model: SourceType = "model"
 
     /// A raster array tile source.
-    @_spi(Experimental)
+    
     public static let rasterArray: SourceType = "raster-array"
 
     /// A custom geometry source.
     public static let customGeometry: SourceType = "custom-geometry"
 
     /// A custom raster source.
-    @_spi(Experimental)
+    
     public static let customRaster: SourceType = "custom-raster"
 
     public init(stringLiteral type: String) {

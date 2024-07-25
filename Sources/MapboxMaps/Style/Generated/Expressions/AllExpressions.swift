@@ -53,7 +53,7 @@ public extension Expression {
         public static let acos = Operator(rawValue: "acos")
 
         /// Returns a string which matches one of the values specified in the text-anchor layout property, depending on the best-fit anchor for the symbol during rendering. Using this expression the content of the layer can be dynamically configured for the specific anchor type.
-        @_spi(Experimental) public static let activeAnchor = Operator(rawValue: "active-anchor")
+         public static let activeAnchor = Operator(rawValue: "active-anchor")
 
         /// Returns `true` if all the inputs are `true`, `false` otherwise. The inputs are evaluated in order, and evaluation is short-circuiting: once an input expression evaluates to `false`, the result is `false` and no further input expressions are evaluated.
         public static let all = Operator(rawValue: "all")
@@ -223,6 +223,9 @@ public extension Expression {
 
         /// Returns a random value in the specified range (first two input numbers) based on a supplied seed (third input). The seed can be an expression or a constant number or string value.
         public static let random = Operator(rawValue: "random")
+
+        /// Returns the length of the particle velocity vector. Can only be used in the `raster-particle-color` property.
+        public static let rasterParticleSpeed = Operator(rawValue: "raster-particle-speed")
 
         /// Returns the raster value of a pixel computed via `raster-color-mix`. Can only be used in the `raster-color` property.
         public static let rasterValue = Operator(rawValue: "raster-value")

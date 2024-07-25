@@ -4,9 +4,9 @@ import MapboxCoreMaps
 /// Options for the following statistics collection behaviors:
 /// - Specify the types of sampling: cumulative, per-frame, or both.
 /// - Define the minimum elapsed time for collecting performance samples.
-@_spi(Experimental)
+
 extension PerformanceStatisticsOptions {
-    @_spi(Experimental)
+    
     public struct SamplerOptions: OptionSet, Hashable {
         /// Enables the collection of `cumulativeValues`, which are GPU resource statistics.
         public static let cumulative = SamplerOptions(rawValue: 1 << 0)

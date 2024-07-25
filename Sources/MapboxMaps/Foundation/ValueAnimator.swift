@@ -1,4 +1,4 @@
-public protocol ValueAnimatorParticipant: AnyObject {
+public  protocol ValueAnimatorParticipant: AnyObject {
     /// Is participant running.
     var running: Bool { get set }
 }

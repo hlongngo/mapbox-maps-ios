@@ -1,8 +1,8 @@
 /// Allows to store a closure handlers for some event.
 public class ClosureHandlersStore<Payload, ReturnType> {
     public typealias Handler = (Payload) -> ReturnType
-    public typealias ObservationHandler = (Bool) -> Void
-    public typealias ObjectHandler = ObjectWrapper<Handler>
+    typealias ObservationHandler = (Bool) -> Void
+    typealias ObjectHandler = ObjectWrapper<Handler>
 
     var onObserved: ObservationHandler?
 
@@ -49,9 +49,9 @@ extension ClosureHandlersStore: Sequence {
     }
 }
 
-extension ClosureHandlersStore where ReturnType == Void {
+public extension ClosureHandlersStore where ReturnType == Void {
     /// Use `signal` to subscribe to events.
-    public var signal: Signal<Payload> {
+    var signal: Signal<Payload> {
         Signal { [weak self] handler in
             self?.add(handler: handler) ?? .empty
         }

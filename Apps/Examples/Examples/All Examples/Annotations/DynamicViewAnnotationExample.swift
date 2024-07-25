@@ -1,5 +1,5 @@
 import UIKit
-@_spi(Experimental) import MapboxMaps
+ import MapboxMaps
 import CoreLocation
 import MapboxCoreMaps
 

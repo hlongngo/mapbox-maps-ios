@@ -54,6 +54,9 @@ targetTemplates:
         - variable: MAPBOX_MAPS_SIGNPOSTS_ENABLED
           value: 1
           isEnabled: false
+        - variable: MAPBOX_MAPS_CONTENT_DSL_LOGS_ENABLED
+          value: 1
+          isEnabled: false
 
   unit-test:
     type: bundle.unit-test
@@ -120,7 +123,7 @@ settingGroups:
       IPHONEOS_DEPLOYMENT_TARGET: 12.0
       XROS_DEPLOYMENT_TARGET: 1.0
       TARGETED_DEVICE_FAMILY: 1,2,7
-      SWIFT_VERSION: 5.8
+      SWIFT_VERSION: 5.9
       SUPPORTS_MACCATALYST: NO
       SKIP_INSTALL: YES
 

@@ -1,6 +1,6 @@
 // This file is generated.
 import XCTest
-@_spi(Experimental) @testable import MapboxMaps
+ @testable import MapboxMaps
 
 final class RasterArraySourceTests: XCTestCase {
 
@@ -35,6 +35,21 @@ final class RasterArraySourceTests: XCTestCase {
         } catch {
             XCTFail("Failed to decode RasterArraySource.")
         }
+    }
+
+    func testSetPropertyValueWithFunction() {
+        let source = RasterArraySource(id: "test-source")
+            .url(String.testSourceValue())
+            .tiles([String].testSourceValue())
+            .minzoom(Double.testSourceValue())
+            .maxzoom(Double.testSourceValue())
+            .tileCacheBudget(TileCacheBudgetSize.testSourceValue())
+
+        XCTAssertEqual(source.url, String.testSourceValue())
+        XCTAssertEqual(source.tiles, [String].testSourceValue())
+        XCTAssertEqual(source.minzoom, Double.testSourceValue())
+        XCTAssertEqual(source.maxzoom, Double.testSourceValue())
+        XCTAssertEqual(source.tileCacheBudget, TileCacheBudgetSize.testSourceValue())
     }
 }
 

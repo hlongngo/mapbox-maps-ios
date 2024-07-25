@@ -1,5 +1,5 @@
 import UIKit
-@_spi(Experimental) import MapboxMaps
+ import MapboxMaps
 
 final class DebugMapExample: UIViewController, ExampleProtocol {
     private var collectStatisticsButton = UIButton(type: .system)

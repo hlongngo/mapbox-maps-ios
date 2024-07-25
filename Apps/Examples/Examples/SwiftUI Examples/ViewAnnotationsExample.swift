@@ -1,11 +1,12 @@
 import SwiftUI
 import Turf
-@_spi(Experimental) import MapboxMaps
+ import MapboxMaps
 
 @available(iOS 14.0, *)
 struct ViewAnnotationsExample: View {
     @State private var taps: [Tap] = []
     @State private var allowOverlap: Bool = false
+    @State private var ignoreAllSafeArea: Bool = true
     @State private var selected = false
     @State private var etaAnnotationAnchor = ViewAnnotationAnchor.center
     @State private var overlayHeight: CGFloat = 0
@@ -50,18 +51,6 @@ struct ViewAnnotationsExample: View {
             // A Dynamic View Annotation annotation, that is attached to the Polyline annotation.
             let routeLayer = "route"
             let routeFeature = "route-feature"
-            MapViewAnnotation(layerId: routeLayer, featureId: routeFeature) {
-                Text("1h 30m")
-                    .padding(3)
-                    .callout(
-                        anchor: etaAnnotationAnchor,
-                        color: Color(UIColor.systemBackground),
-                        tailSize: 5.0)
-            }
-            .allowOverlap(allowOverlap)
-            .variableAnchors(.all) // Allow all directions for anchor
-            .onAnchorChanged { self.etaAnnotationAnchor = $0.anchor }
-            .selected(true)
 
             // Route polyline
             PolylineAnnotationGroup {
@@ -74,6 +63,19 @@ struct ViewAnnotationsExample: View {
             .layerId(routeLayer) // Specify id for underlying line layer.
             .lineCap(.round)
             .slot("middle") // Display above roads and below 3D buildings and labels (for Standard Style).
+
+            MapViewAnnotation(layerId: routeLayer, featureId: routeFeature) {
+                Text("1h 30m")
+                    .padding(3)
+                    .callout(
+                        anchor: etaAnnotationAnchor,
+                        color: Color(UIColor.systemBackground),
+                        tailSize: 5.0)
+            }
+            .allowOverlap(allowOverlap)
+            .variableAnchors(.all) // Allow all directions for anchor
+            .onAnchorChanged { self.etaAnnotationAnchor = $0.anchor }
+            .selected(true)
         }
         .presentsWithTransaction(true) // Synchronize Metal and CALayer for better VA performance.
         .onMapTapGesture { context in
@@ -81,14 +83,12 @@ struct ViewAnnotationsExample: View {
         }
         // Add bottom padding for the bottom config panel, View Annotations won't appear there.
         .additionalSafeAreaInsets(.bottom, overlayHeight)
-        .ignoresSafeArea(edges: [.leading, .trailing, .bottom])
-        .onTapGesture {
-            print("SwiftUI view tap received.")
-        }
+        .ignoresSafeArea(edges: ignoreAllSafeArea ? [.all] : [.horizontal, .bottom])
         .safeOverlay(alignment: .bottom) {
             VStack(alignment: .leading) {
                 Text("Tap to add annotations")
                 Toggle("Allow overlap", isOn: $allowOverlap)
+                Toggle("Ignore all safe area", isOn: $ignoreAllSafeArea)
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
@@ -102,7 +102,7 @@ struct ViewAnnotationsExample: View {
 }
 
 @available(iOS 13.0, *)
-private struct Tap: Identifiable {
+private struct Tap: Equatable, Identifiable {
     var id = UUID()
     var coordinate: CLLocationCoordinate2D
     var color: Color = .random

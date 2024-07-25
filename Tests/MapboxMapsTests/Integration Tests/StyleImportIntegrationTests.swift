@@ -1,5 +1,5 @@
 import XCTest
-@_spi(Experimental) @testable import MapboxMaps
+ @testable import MapboxMaps
 
 internal class StyleImportIntegrationTests: MapViewIntegrationTestCase {
     let styleJSONObject: [String: Any] = [
@@ -49,7 +49,7 @@ internal class StyleImportIntegrationTests: MapViewIntegrationTestCase {
 
         mapView.mapboxMap.onMapLoaded.observe { [weak self] _ in
             do {
-                try self?.mapView.mapboxMap.removeStyleImport(for: "standard")
+                try self?.mapView.mapboxMap.removeStyleImport(withId: "standard")
                 let returnedStyleImports = self?.mapView.mapboxMap.styleImports
                 XCTAssertEqual([], returnedStyleImports)
                 removeStyleImportsExpectation.fulfill()

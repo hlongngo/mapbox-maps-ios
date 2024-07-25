@@ -1,4 +1,4 @@
-@_spi(Experimental) @testable import MapboxMaps
+ @testable import MapboxMaps
 import XCTest
 import SwiftUI
 import UIKit

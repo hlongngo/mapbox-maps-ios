@@ -1,5 +1,5 @@
 import XCTest
-@_spi(Experimental) @testable import MapboxMaps
+ @testable import MapboxMaps
 
 class CustomLayerTestCase: XCTestCase {
     let renderer = EmptyCustomRenderer()
@@ -36,6 +36,24 @@ class CustomLayerTestCase: XCTestCase {
 
         XCTAssertTrue(decodedCustomLayer.renderer is EmptyCustomRenderer)
         XCTAssertFalse(decodedCustomLayer.renderer === customLayer.renderer)
+    }
+
+    func testSetPropertyValueWithFunction() {
+        let buildCustomLayer = buildCustomLayer()
+
+        let constructCustomLayer = CustomLayer(id: "test", renderer: renderer)
+            .slot("test-slot")
+            .minZoom(10)
+            .maxZoom(13)
+            .visibility(.constant(.none))
+            .renderer(renderer)
+
+        XCTAssertEqual(constructCustomLayer.slot, "test-slot")
+        XCTAssertEqual(constructCustomLayer.minZoom, 10)
+        XCTAssertEqual(constructCustomLayer.maxZoom, 13)
+        XCTAssertEqual(constructCustomLayer.visibility, .constant(.none))
+        XCTAssertEqual(constructCustomLayer.renderer as? EmptyCustomRenderer, renderer)
+        XCTAssertEqual(buildCustomLayer, constructCustomLayer)
     }
 }
 

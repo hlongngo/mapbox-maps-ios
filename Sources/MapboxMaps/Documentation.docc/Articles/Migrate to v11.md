@@ -129,7 +129,7 @@ We're excited to announce the launch of SwiftUI support in Mapbox Maps SDK. Swif
 
 ```swift
 import SwiftUI
-@_spi(Experimental) import MapboxMaps
+ import MapboxMaps
 
 struct ContentView: View {
     var body: some View {
@@ -552,7 +552,7 @@ try mapView.mapboxMap.removeGeoJSONSourceFeatures(forSourceId: sourceId, feature
 
 ##### Breaking change ⚠️
 
-`MapboxMap.dragStart()` and `MapboxMap.dragEnd()` are not in use anymore and got removed.
+`MapboxMap.dragStart()` and `MapboxMap.dragEnd()` are not in use anymore and got removed, instead use `MapboxMap.beginGesture()` and `MapboxMap.endGesture()` respectively.
 
 
 While maintaing the existing gesture approach we made minor improvements. In v11 we now:

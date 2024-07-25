@@ -15,7 +15,7 @@ public struct ViewportOptions: Hashable {
     ///
     /// Default value is `false`. If you use ``Map-struct`` in SwiftUI this value is true by default.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public var usesSafeAreaInsetsAsPadding: Bool
 
     /// Creates viewport options
@@ -31,7 +31,7 @@ public struct ViewportOptions: Hashable {
     ///    - transitionsToIdleUponUserInteraction: If `true`, viewport will idle when map receives pan gesture. Default value is `true`.
     ///    - usesSafeAreaInsetsAsPadding: If `true`, all viewport states increase the camera padding by the amount of the safe area insets.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public init(transitionsToIdleUponUserInteraction: Bool,
                 usesSafeAreaInsetsAsPadding: Bool) {
         self.transitionsToIdleUponUserInteraction = transitionsToIdleUponUserInteraction

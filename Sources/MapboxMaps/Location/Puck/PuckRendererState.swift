@@ -1,18 +1,18 @@
 /// Substate of ``PuckRenderingData`` which contains only data needed for ``FollowPuckViewportState`` rendering.
 /// Allows to use ``Signal.skipRepeats()`` and avoid unnecessary recalculations.
-public struct PuckRendererState<Configuration: Equatable>: Equatable {
-    public var coordinate: CLLocationCoordinate2D
-    public var horizontalAccuracy: CLLocationAccuracy?
-    public var accuracyAuthorization: CLAccuracyAuthorization
-    public var bearing: CLLocationDirection?
-    public var heading: Heading?
-    public var configuration: Configuration
-    public var bearingEnabled: Bool
-    public var bearingType: PuckBearing
+struct PuckRendererState<Configuration: Equatable>: Equatable {
+    var coordinate: CLLocationCoordinate2D
+    var horizontalAccuracy: CLLocationAccuracy?
+    var accuracyAuthorization: CLAccuracyAuthorization
+    var bearing: CLLocationDirection?
+    var heading: Heading?
+    var configuration: Configuration
+    var bearingEnabled: Bool
+    var bearingType: PuckBearing
 }
 
 extension PuckRendererState {
-    public init(
+    init(
         data: PuckRenderingData,
         bearingEnabled: Bool,
         bearingType: PuckBearing,

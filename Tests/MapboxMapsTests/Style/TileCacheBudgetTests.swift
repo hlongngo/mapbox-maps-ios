@@ -1,5 +1,5 @@
 import XCTest
-@_spi(Experimental) @testable import MapboxMaps
+ @testable import MapboxMaps
 
 final class TileCacheBudgetTests: XCTestCase {
 
@@ -22,12 +22,12 @@ final class TileCacheBudgetTests: XCTestCase {
     }
 
     func testConversionError() {
-        let invalidJson = """
+        let invalidJson = Data("""
             {
                 "tiles": 42,
                 "megabytes": 74
             }
-        """.data(using: .utf8)!
+        """.utf8)
 
         do {
             _ = try JSONDecoder().decode(TileCacheBudgetSize.self, from: invalidJson)

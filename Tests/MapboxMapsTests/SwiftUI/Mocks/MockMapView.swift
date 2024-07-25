@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-@_spi(Experimental) @testable import MapboxMaps
+ @testable import MapboxMaps
 
 @available(iOS 13.0, *)
 struct MockMapView {
@@ -26,7 +26,9 @@ struct MockMapView {
             viewportManager: viewportManager,
             ornaments: ornaments,
             debugOptions: [],
+            isOpaque: false,
             presentsWithTransaction: false,
+            frameRate: Map.FrameRate(),
             makeViewportTransition: makeViewportTransitionStub.call(with:),
             makeViewportState: { [makeViewportStateStub] viewport, layoutDirection in
                 makeViewportStateStub.call(with: MakeViewportParameters(viewport: viewport, layoutDirection: layoutDirection))

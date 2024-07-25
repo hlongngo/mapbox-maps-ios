@@ -2,7 +2,7 @@
 ///
 /// See ``GestureType`` for more information.
     @_documentation(visibility: public)
-@_spi(Experimental)
+
 public struct MapGestureHandlers {
     /// Called when a gesture has begun.
     @_documentation(visibility: public)

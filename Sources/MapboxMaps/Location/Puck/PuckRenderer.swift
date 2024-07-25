@@ -1,4 +1,4 @@
-public protocol PuckRenderer: AnyObject {
+protocol PuckRenderer: AnyObject {
     associatedtype Configuration: Equatable
     var state: PuckRendererState<Configuration>? { get set }
 }

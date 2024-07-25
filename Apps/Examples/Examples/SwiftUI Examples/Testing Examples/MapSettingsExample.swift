@@ -1,5 +1,5 @@
 import SwiftUI
-@_spi(Experimental) import MapboxMaps
+ import MapboxMaps
 
 struct Settings {
     var mapStyle: MapStyle = .standard

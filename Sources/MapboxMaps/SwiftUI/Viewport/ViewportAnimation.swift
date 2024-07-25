@@ -3,7 +3,7 @@ import UIKit
 
 /// Specifies the animation for the map ``Viewport``.
     @_documentation(visibility: public)
-@_spi(Experimental)
+
 public struct ViewportAnimation {
     /// Viewport transition factory closure.
     @_documentation(visibility: public)
@@ -164,7 +164,7 @@ struct ViewportAnimationData {
 /// See ``Viewport`` and ``ViewportAnimation`` documentation for more details.
     @_documentation(visibility: public)
 @available(iOS 13.0, *)
-@_spi(Experimental)
+
 public func withViewportAnimation<Result>(
     _ animation: ViewportAnimation = .default,
     body: () throws -> Result,

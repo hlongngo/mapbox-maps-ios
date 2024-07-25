@@ -3,10 +3,10 @@ import UIKit
 /// `Ref` is a read-only reference to an arbitrary value captured by closure.
 /// It is used to pass the value, that might be changed over time.
 public struct Ref<Value> {
-    public let getter: () -> Value
+    let getter: () -> Value
 
     /// The referenced value.
-    public var value: Value { getter() }
+    var value: Value { getter() }
 
     /// Creates a reference from the given closure.
     public init(_ getter: @escaping () -> Value) {
@@ -80,17 +80,21 @@ extension Ref where Value: AnyObject {
 }
 
 public extension Ref where Value == Date {
-    static let now = Ref { Date() }
+    public static let now = Ref { Date() }
 }
 
-extension Ref where Value == UIApplication.State {
+public extension Ref where Value == UIApplication.State {
     @available(iOSApplicationExtension, unavailable)
     static let global = Ref { UIApplication.shared.applicationState }
 }
 
-extension Ref {
+public extension Ref {
     static func weakRef<O: AnyObject>(_ object: O) -> Ref where Value == O? {
         Ref { [weak object] in object }
+    }
+
+    static func weakRef<T, O: AnyObject>(_ object: O, property: KeyPath<O, T>) -> Ref where Value == T? {
+        Ref { [weak object] in object?[keyPath: property] }
     }
 }
 

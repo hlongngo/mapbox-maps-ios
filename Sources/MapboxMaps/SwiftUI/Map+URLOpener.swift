@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Handles url opening.
     @_documentation(visibility: public)
-@_spi(Experimental)
+
 @available(iOS 13, *)
 public typealias MapURLOpener = (URL) -> Void
 

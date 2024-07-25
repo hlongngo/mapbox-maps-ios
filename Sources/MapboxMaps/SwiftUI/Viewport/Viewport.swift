@@ -52,7 +52,7 @@ import Turf
 ///
 /// The ``Viewport`` allows you to read only the values that you set. If you need to read the actual camera state values, subscribe to ``Map/onCameraChanged(action:)`` event.
     @_documentation(visibility: public)
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 public struct Viewport: Equatable {
     enum Storage: Equatable {

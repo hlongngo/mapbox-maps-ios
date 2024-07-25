@@ -2,14 +2,142 @@
 
 Mapbox welcomes participation and contributions from everyone.
 
-## main
+## 11.4.0-rc.2 - 15 May, 2024
+
+* Bump core maps version to 11.4.0-rc.2 and common sdk to 24.4.0-rc.2
+
+## 11.4.0-rc.1 - 8 May, 2024
+
+* Added camera(for:) deprecation for several methods. Added  `CameraForExample` showcasing camera(for:) usageq
+* Expose experimental `RasterParticleLayer` which is suitable for displaying precipitation or wind on the map
+* Expose the list of added `ViewAnnotation`
+* Bump core maps version to 11.4.0-rc.1 and common sdk to 24.4.0-rc.1.
+
+## 11.4.0-beta.3 - 6 May, 2024
+
+* Bump common sdk to 24.4.0-beta.3.
+
+## 11.4.0-beta.2 - 2 May, 2024
+
+* Bump core maps version to 11.4.0-beta.2 and common sdk to 24.4.0-beta.2.
+* `MapboxMap.loadStyle()` and `Snapshotter.loadStyle()` behaviour is rolled back to pre 11.4.0-beta.1 state.
+
+## 11.4.0-beta.1 - 24 April, 2024
+
+⚠️⚠️⚠️ Known Issues ⚠️⚠️⚠️
+* In v11.4.0-beta.1, setting a `RasterLayer`’s `rasterColor` property with an expression will block the layer from rendering. This issue will be resolved in v11.4.0-rc.1.
+
+### Experimental API breaking changes ⚠️
+
+In this release, we introduce the new [Declarative Styling API](https://docs.tilestream.net/ios/maps/api/latest/documentation/mapboxmaps/declarative-map-styling) for UIKit and SwiftUI. This change is based on `MapContent` introduced for SwiftUI; therefore, it has been restructured. The changes are compatible; however, in some rare cases, you may need to adjust your code.
+
+* [SwiftUI] `MapContent` now supports custom implementations, similar to SwiftUI views. The `MapContent` protocol now requires the `var body: some MapContent` implementation.
+* [SwiftUI] PointAnnotation and Puck3D property-setters that consumed fixed-length arrays reworked to use named properties or platform types for better readability:
+```swift
+// Before
+PointAnnotation()
+    .iconOffset([10, 20]) // x, y
+    .iconTextFitPadding([1, 2, 3, 4]) // top, right, bottom, left
+Puck3D()
+    .modelScale([1, 2, 3]) // x, y, z
+
+// After
+PointAnnotation()
+    .iconOffset(x: 10, y: 20)
+    .iconTextFitPadding(UIEdgeInsets(top: 1, left: 4, bottom: 3, right: 2))
+Puck3D()
+    .modelScale(x: 1, y: 2, z: 3)
+```
+* `StyleImportConfiguration` was removed from public API, the `MapStyle` now contains the configuration directly.
+* `TransitionOptions` is now a Swift `struct` rather than an Objective-C `class`.
+
+### Features ✨ and improvements 🏁
+
+* All the style primitives can now be used as `MapContent` in SwiftUI.
+```swift
+ MapboxMaps
+Map {
+    LineLayer(id: "traffic")
+        .lineColor(.red)
+        .lineWidth(2)
+}
+```
+
+* UIKit applications can now use the `setMapStyleContent` to use style primitives:
+```swift
+ MapboxMaps
+mapView.mapboxMap.setMapStyleContent {
+    LineLayer(id: "traffic")
+        .lineColor(.red)
+        .lineWidth(2)
+}
+```
+
+* Allow to assign slot to 2D and 3D location indicators.
+* Allow observing start/stop event of `CameraAnimator`
+  You can observe start/stop event of `CameraAnimator` by using new `CameraAnimationsManager` APIs as shown below
+  ```swift
+  // Observe start event of any CameraAnimator owned by AnimationOwner.cameraAnimationsManager
+  mapView.camera
+    .onCameraAnimatorStarted
+    .owned(by: .cameraAnimationsManager)
+    .observe { cameraAnimator in
+      // Handle camera animation started here.
+    }
+    .store(in: &cancelables)
+  // Observe finished events of any CameraAnimator
+  mapView.camera
+    .onCameraAnimatorFinished
+    .observe { animator in
+      // Handle camera animation stopped here.
+    }
+    .store(in: &cancelables)
+  ```
+  You can also observe directly on an instance of `CameraAnimator` when using low-level camera APIs to create a custom animator
+  ```swift
+  // Declare an animator that changes the map's bearing
+  let bearingAnimator = mapView.camera.makeAnimator(duration: 4, curve: .easeInOut) { (transition) in
+    transition.bearing.toValue = -45
+  }
+  bearingAnimator.onStarted.observe {
+    // Bearing animator has started.
+  }.store(in: &cancelables)
+  ```
+* Allow adding slots at runtime.
+* Expose API to interact with style imports using Declarative Styling and regular imperative API.
+* Expose `StyleImport` for declarative styling as `MapStyleContent`.
+* Expose `removeStyleImport`, `moveStyleImport`, `updateStyleImport`, `addStyleImport` methods on `StyleManager`
+* Allow assigning layerPosition to 2D and 3D location indicators in imperative API.
+* Make Puck2D and Puck3D to be positioned according to relative layer position in declarative API instead of always top-most position.
+* Add codesign for XCFrameworks.
+* `MapboxMap.loadStyle()` and `Snapshotter.loadStyle()` now correctly call the `completion` closure.
+
+## 11.3.0 - 10 April, 2024
+
+### Features ✨ and improvements 🏁
+
+* Introduce an experimental Style DSL, enabling developers to add map style content like Sources, Layers, Style Images, Terrain, Light and Atmosphere to their map style at runtime in a declarative pattern. See the documentation [here](https://docs.mapbox.com/ios/maps/api/11.2.0-beta.1/documentation/mapboxmaps/style-dsl) for more information. For SwiftUI users, this Style DSL provides a more natural approach to manipulating content.
+[tile store] Expose API for estimating Tile Region downloads and storage size.
+
+## 11.3.0-rc.1 - 27 March, 2024
+
+* [tile store] Expose API for estimating Tile Region downloads and storage size.
+* Remove metal view's contentScaleFactor assertion.
+* Bump core maps version to 11.3.0-rc.1 and common sdk to 24.3.0-rc.1.
+
+## 11.3.0-beta.1 - 14 March, 2024
 
 * Update the minimum Xcode version to 15.2 (Swift 5.9).
 * Add `onClusterTap` and `onClusterLongPress` to AnnotationManagers(UIKit) and AnnotationGroups(SwiftUI) which support clustering
 * Add annotations drag handlers callbacks `dragBeginHandler`, `dragChangeHandler`, `dragEndHandler` to all Annotation types.
-* Add `allowHistTesting` modifier on `MapViewAnnotation`.
-* Fix taps propagation on `ViewAnnotation`.
-* Bump core maps version to 11.2.0 and common sdk to 24.2.0.
+* [SwiftUI] Expose `captureSnapshot` on `MapProxy` which allows to capture SwiftUI Map snapshot using `MapReader`
+* [SwiftUI] Expose `opaque` and `frameRate` on SwiftUI Map
+* [SwiftUI] Add `allowHistTesting` modifier on `MapViewAnnotation`.
+* [SwiftUI] Fix view annotations positioning on `.ignoresSafeArea(.all)`
+* Add `includeOverlays` parameter to `MapView.snapshot()`
+* Fix taps propagation on `ViewAnnotation` and `MapViewAnnotation`.
+* Added Attribution and Telemetry pop-up dialogs and compass view content description translations for Arabic, Belarusian, Bulgarian, Catalan, Chinese Simplified, Chinese Traditional, Czech, Danish, Dutch, French, Galician, German, Hebrew, Italian, Japanese, Korean, Lithuanian, Norwegian, Polish, Belarusian, Russian, Spanish, Swedish, Ukranian and Vietnamese.
+* Bump core maps version to 11.3.0-beta.1 and common sdk to 24.3.0-beta.1.
 
 ## 11.2.0 - 28 February, 2024
 
@@ -793,8 +921,8 @@ MapboxMap.removeGeoJSONSourceFeatures(forSourceId:featureIds:dataId:)
 * `public func layer<T: Layer>(withId id: String) throws -> T` has been updated to `public func layer<T>(withId id: String, type: T.Type) throws -> T where T: Layer`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
 * `public func updateLayer<T: Layer>(withId id: String, update: (inout T) throws -> Void) throws` has been updated to `public func updateLayer<T>(withId id: String, type: T.Type, update: (inout T) throws -> Void) throws where T: Layer`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
 * `public func source<T: Source>(withId id: String) throws -> T` has been updated to `public func source<T>(withId id: String, type: T.Type) throws -> T where T: Source`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
-* `@_spi(Experimental) public func layer(withId id: String, type: Layer.Type) throws -> Layer` is no longer experimental and has been updated to `public func layer(withId id: String) throws -> Layer`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
-* `@_spi(Experimental) public func source(withId id: String, type: Source.Type) throws  -> Source` is no longer experimental and has been updated to `public func source(withId id: String) throws  -> Source`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
+* ` public func layer(withId id: String, type: Layer.Type) throws -> Layer` is no longer experimental and has been updated to `public func layer(withId id: String) throws -> Layer`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
+* ` public func source(withId id: String, type: Source.Type) throws  -> Source` is no longer experimental and has been updated to `public func source(withId id: String) throws  -> Source`. ([#694](https://github.com/mapbox/mapbox-maps-ios/pull/694))
 * `GestureManagerDelegate.gestureBegan(for:)` has been renamed to `GestureManagerDelegate.gestureManager(_:didBegin:)`. ([#697](https://github.com/mapbox/mapbox-maps-ios/pull/697))
 * Added the public delegate methods `GestureManagerDelegate.gestureManager(_:didEnd:willAnimate:)` and `GestureManagerDelegate.gestureManager(_:didEndAnimatingFor:)`. ([#697](https://github.com/mapbox/mapbox-maps-ios/pull/697))
 * Converts `PointAnnotation.Image` from an `enum` to a `struct`. ([#707](https://github.com/mapbox/mapbox-maps-ios/pull/707))
@@ -850,7 +978,7 @@ MapboxMap.removeGeoJSONSourceFeatures(forSourceId:featureIds:dataId:)
 ### Breaking changes ⚠️
 
 * `BasicCameraAnimator` now keeps animators alive without the user storing the animator. ([#646](https://github.com/mapbox/mapbox-maps-ios/pull/646/))
-* Experimental style APIs are now marked with `@_spi(Experimental)` and the previously used underscore prefixes have been removed. In order to access these methods, use `@_spi(Experimental)` to annotate the import statement for MapboxMaps. ([#680](https://github.com/mapbox/mapbox-maps-ios/pull/680))
+* Experimental style APIs are now marked with `` and the previously used underscore prefixes have been removed. In order to access these methods, use `` to annotate the import statement for MapboxMaps. ([#680](https://github.com/mapbox/mapbox-maps-ios/pull/680))
 * `RenderedQueryOptions.filter` is now of type `Expression` instead of `Any` ([#689](https://github.com/mapbox/mapbox-maps-ios/pull/689))
 * `OfflineRegionGeometryDefinition.geometry` is now of type `Turf.Geometry` instead of `MapboxCommon.Geometry` ([#689](https://github.com/mapbox/mapbox-maps-ios/pull/689))
 * The `HTTPResponse` init methods that take `MapboxCommon.Expected` instead of `Result` are now correctly marked as refined for Swift. ([#689](https://github.com/mapbox/mapbox-maps-ios/pull/689))
