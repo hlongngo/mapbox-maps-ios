@@ -14,5 +14,6 @@ scripts/xcparty/.swiftpm
 MapboxMaps.xcodeproj
 *.doccarchive
 Sources/MapboxMaps/Documentation.docc/*.html
+.github/workflows/analyze.yml
 
 .vscode
