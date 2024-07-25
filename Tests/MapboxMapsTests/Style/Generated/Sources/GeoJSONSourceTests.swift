@@ -1,6 +1,6 @@
 // This file is generated.
 import XCTest
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 final class GeoJSONSourceTests: XCTestCase {
 
@@ -14,7 +14,8 @@ final class GeoJSONSourceTests: XCTestCase {
         source.cluster = Bool.testSourceValue()
         source.clusterRadius = Double.testSourceValue()
         source.clusterMaxZoom = Double.testSourceValue()
-        source.clusterProperties = [String: Expression].testSourceValue()
+        source.clusterMinPoints = Double.testSourceValue()
+        source.clusterProperties = [String: Exp].testSourceValue()
         source.lineMetrics = Bool.testSourceValue()
         source.generateId = Bool.testSourceValue()
         source.promoteId = PromoteId.testSourceValue()
@@ -44,7 +45,8 @@ final class GeoJSONSourceTests: XCTestCase {
             XCTAssert(decodedSource.cluster == Bool.testSourceValue())
             XCTAssert(decodedSource.clusterRadius == Double.testSourceValue())
             XCTAssert(decodedSource.clusterMaxZoom == Double.testSourceValue())
-            XCTAssert(decodedSource.clusterProperties == [String: Expression].testSourceValue())
+            XCTAssert(decodedSource.clusterMinPoints == Double.testSourceValue())
+            XCTAssert(decodedSource.clusterProperties == [String: Exp].testSourceValue())
             XCTAssert(decodedSource.lineMetrics == Bool.testSourceValue())
             XCTAssert(decodedSource.generateId == Bool.testSourceValue())
             XCTAssert(decodedSource.promoteId == PromoteId.testSourceValue())

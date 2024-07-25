@@ -48,7 +48,7 @@ extension LineJoin {
     }
 
     static func random() -> LineJoin {
-        let allCases: [LineJoin] = [.bevel, .round, .miter]
+        let allCases: [LineJoin] = [.bevel, .round, .miter, .none]
         return allCases.randomElement()!
     }
 }
@@ -562,6 +562,25 @@ extension TextWritingMode {
 
     static func random() -> TextWritingMode {
         let allCases: [TextWritingMode] = [.horizontal, .vertical]
+        return allCases.randomElement()!
+    }
+}
+
+// MARK: CLIP_LAYER_TYPES
+
+extension Value where T == ClipLayerTypes {
+    static func testConstantValue() -> Value<ClipLayerTypes> {
+        return .constant(ClipLayerTypes.testConstantValue())
+    }
+}
+
+extension ClipLayerTypes {
+    static func testConstantValue() -> ClipLayerTypes {
+        return .model
+    }
+
+    static func random() -> ClipLayerTypes {
+        let allCases: [ClipLayerTypes] = [.model, .symbol]
         return allCases.randomElement()!
     }
 }

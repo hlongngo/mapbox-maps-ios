@@ -1,5 +1,5 @@
 import SwiftUI
- import MapboxMaps
+import MapboxMaps
 
 private struct WeatherData: Identifiable, Equatable {
     let id = UUID().uuidString
@@ -37,7 +37,6 @@ struct WeatherAnnotationExample: View {
         .ignoresSafeArea()
     }
 }
-
 
 @available(iOS 14.0, *)
 private struct WeatherIconView: View {

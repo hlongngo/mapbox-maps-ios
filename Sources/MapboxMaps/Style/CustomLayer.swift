@@ -5,7 +5,7 @@ import Foundation
 /// With a power of ``CustomLayerHost`` you can implement your own Metal rendering behaviour
 /// and manipulate layer as a usual one.
     @_documentation(visibility: public)
-
+@_spi(Experimental)
 public struct CustomLayer: Layer, Equatable {
 
     /// Unique layer name
@@ -136,13 +136,13 @@ extension CustomLayer {
     }
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension CustomLayer: MapStyleContent, PrimitiveMapContent {
     /// Positions this layer at a specified position.
     ///
     /// - Note: This method should be called last in a chain of layer updates.
-    
+    @_spi(Experimental)
     @_documentation(visibility: public)
     public func position(_ position: LayerPosition) -> LayerAtPosition<Self> {
         LayerAtPosition(layer: self, position: position)

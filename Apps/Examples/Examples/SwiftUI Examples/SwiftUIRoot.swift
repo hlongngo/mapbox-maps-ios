@@ -1,6 +1,6 @@
 import SwiftUI
 import UIKit
- import MapboxMaps
+import MapboxMaps
 @available(iOS 14.0, *)
 struct SwiftUIRoot: View {
     var body: some View {
@@ -36,6 +36,8 @@ struct SwiftUIRoot: View {
                     ExampleLink("Annotation Order", destination: AnnotationsOrderTestExample())
 
                     ExampleLink("Attribution url via callback", note: "Works on iOS 13+", destination: AttributionManualURLOpen())
+                    ExampleLink("Raster particles", note: "Rendering of raster particles.", destination: RasterParticleExample())
+                    ExampleLink("Clip Layer", note: "Usage of clip layer to hide 3D models at some areas on the map", destination: ClipLayerExample())
                     if #available(iOS 15.0, *) {
                         ExampleLink("Attribution url open via environment", note: "Works on iOS 15+", destination: AttributionEnvironmentURLOpen())
                     }
@@ -52,7 +54,7 @@ struct SwiftUIRoot: View {
 }
 
 @available(iOS 14.0, *)
-struct ExampleLink<S, Destination>: View where S : StringProtocol, Destination: View {
+struct ExampleLink<S, Destination>: View where S: StringProtocol, Destination: View {
     var title: S
     var note: S?
     var destination: () -> Destination
@@ -90,7 +92,6 @@ private struct ToolbarContentWhenPresented<T: ToolbarContent>: ViewModifier {
     }
 }
 
-
 @available(iOS 14.0, *)
 struct SwiftUIWrapper: View {
     // A model for StandardStyleLocationsExample.
@@ -108,7 +109,6 @@ func createSwiftUIExamplesController() -> UIViewController {
     controller.modalPresentationStyle = .fullScreen
     return controller
 }
-
 
 @available(iOS 14.0, *)
 struct ExamplesNavigationView<Content>: View where Content: View {

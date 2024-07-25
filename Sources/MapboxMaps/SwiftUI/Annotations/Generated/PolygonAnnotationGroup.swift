@@ -31,8 +31,6 @@
 ///     .slot("bottom")
 /// }
 /// ```
-@_documentation(visibility: public)
-
 @available(iOS 13.0, *)
 public struct PolygonAnnotationGroup<Data: RandomAccessCollection, ID: Hashable> {
     let annotations: [(ID, PolygonAnnotation)]
@@ -43,7 +41,6 @@ public struct PolygonAnnotationGroup<Data: RandomAccessCollection, ID: Hashable>
     ///     - data: Collection of data.
     ///     - id: Data identifier key path.
     ///     - content: A closure that creates annotation for a given data item.
-    @_documentation(visibility: public)
     public init(_ data: Data, id: KeyPath<Data.Element, ID>, content: @escaping (Data.Element) -> PolygonAnnotation) {
         annotations = data.map { element in
             (element[keyPath: id], content(element))
@@ -55,7 +52,6 @@ public struct PolygonAnnotationGroup<Data: RandomAccessCollection, ID: Hashable>
     /// - Parameters:
     ///     - data: Collection of identifiable data.
     ///     - content: A closure that creates annotation for a given data item.
-    @_documentation(visibility: public)
     @available(iOS 13.0, *)
     public init(_ data: Data, content: @escaping (Data.Element) -> PolygonAnnotation) where Data.Element: Identifiable, Data.Element.ID == ID {
         self.init(data, id: \.id, content: content)
@@ -65,9 +61,8 @@ public struct PolygonAnnotationGroup<Data: RandomAccessCollection, ID: Hashable>
     ///
     /// - Parameters:
     ///     - content: A builder closure that creates annotations.
-    @_documentation(visibility: public)
     public init(@ArrayBuilder<PolygonAnnotation> content: @escaping () -> [PolygonAnnotation?])
-        where Data == Array<(Int, PolygonAnnotation)>, ID == Int {
+        where Data == [(Int, PolygonAnnotation)], ID == Int {
 
         let annotations = content()
             .enumerated()
@@ -87,43 +82,40 @@ public struct PolygonAnnotationGroup<Data: RandomAccessCollection, ID: Hashable>
 
     private var fillAntialias: Bool?
     /// Whether or not the fill should be antialiased.
-    @_documentation(visibility: public)
+    /// Default value: true.
     public func fillAntialias(_ newValue: Bool) -> Self {
         with(self, setter(\.fillAntialias, newValue))
     }
 
     private var fillEmissiveStrength: Double?
     /// Controls the intensity of light emitted on the source features.
-    @_documentation(visibility: public)
+    /// Default value: 0. Minimum value: 0.
     public func fillEmissiveStrength(_ newValue: Double) -> Self {
         with(self, setter(\.fillEmissiveStrength, newValue))
     }
 
     private var fillTranslate: [Double]?
     /// The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively.
-    @_documentation(visibility: public)
+    /// Default value: [0,0].
     public func fillTranslate(_ newValue: [Double]) -> Self {
         with(self, setter(\.fillTranslate, newValue))
     }
 
     private var fillTranslateAnchor: FillTranslateAnchor?
     /// Controls the frame of reference for `fill-translate`.
-    @_documentation(visibility: public)
+    /// Default value: "map".
     public func fillTranslateAnchor(_ newValue: FillTranslateAnchor) -> Self {
         with(self, setter(\.fillTranslateAnchor, newValue))
     }
 
     private var slot: String?
-    /// 
     /// Slot for the underlying layer.
     ///
     /// Use this property to position the annotations relative to other map features if you use Mapbox Standard Style.
     /// See <doc:Migrate-to-v11##21-The-Mapbox-Standard-Style> for more info.
-    @_documentation(visibility: public)
     public func slot(_ newValue: String) -> Self {
         with(self, setter(\.slot, newValue))
     }
-
 
     private var layerId: String?
 
@@ -131,7 +123,6 @@ public struct PolygonAnnotationGroup<Data: RandomAccessCollection, ID: Hashable>
     ///
     /// Use the identifier to create view annotations bound the annotations from the group.
     /// For more information, see the ``MapViewAnnotation/init(layerId:featureId:content:)``.
-    @_documentation(visibility: public)
     public func layerId(_ layerId: String) -> Self {
         with(self, setter(\.layerId, layerId))
     }

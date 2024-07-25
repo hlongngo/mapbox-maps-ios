@@ -1,6 +1,6 @@
 # Common SDK - Internal
 
-Mapbox SDK to share objects and utilities across SDKs. These are for internal use only. 
+Mapbox SDK to share objects and utilities across SDKs. These are for internal use only.
 
 ## Topics
 
@@ -22,6 +22,7 @@ Mapbox SDK to share objects and utilities across SDKs. These are for internal us
 - ``MBXPermissionStatusToString(_:)``
 - ``MBXTileDataDomainToString(_:)``
 - ``MBXTileRegionErrorTypeToString(_:)``
+- ``MBXCacheClearingErrorTypeToString(_:)``
 
 <!-- global variables -->
 - ``GeometryType_Empty``

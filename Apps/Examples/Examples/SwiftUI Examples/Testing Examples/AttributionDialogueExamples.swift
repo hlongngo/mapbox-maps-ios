@@ -1,6 +1,5 @@
 import SwiftUI
- import MapboxMaps
-
+import MapboxMaps
 
 @available(iOS 15, *)
 struct AttributionEnvironmentURLOpen: View {

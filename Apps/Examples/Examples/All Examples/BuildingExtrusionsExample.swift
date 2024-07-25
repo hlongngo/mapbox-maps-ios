@@ -37,14 +37,14 @@ final class BuildingExtrusionsExample: UIViewController, ExampleProtocol {
         button.addTarget(self, action: #selector(lightColorButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
-    
+
     private var ambientLight: AmbientLight = {
         var light = AmbientLight()
         light.color = .constant(StyleColor(.blue))
         light.intensity = .constant(0.9)
         return light
     }()
-    
+
     private var directionalLight: DirectionalLight = {
         var light = DirectionalLight()
         light.color = .constant(StyleColor(.white))
@@ -113,26 +113,25 @@ final class BuildingExtrusionsExample: UIViewController, ExampleProtocol {
         }
 
         layer.fillExtrusionHeight = .expression(
-            Exp(.interpolate) {
-                Exp(.linear)
-                Exp(.zoom)
-                15
-                0
-                15.05
-                Exp(.get) {
-                    "height"
-                }
+            Exp(.get) {
+                "height"
             }
         )
 
         layer.fillExtrusionBase = .expression(
+            Exp(.get) {
+                "min_height"
+            }
+        )
+
+        layer.fillExtrusionVerticalScale = .expression(
             Exp(.interpolate) {
                 Exp(.linear)
                 Exp(.zoom)
                 15
                 0
                 15.05
-                Exp(.get) { "min_height"}
+                1
             }
         )
 

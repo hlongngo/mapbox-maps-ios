@@ -24,8 +24,8 @@ extension Feature {
         properties = JSONObject(rawValue: feature.properties)
     }
 
-    /// Set properties on this Feature 
-    
+    /// Set properties on this Feature
+    @_spi(Experimental)
     public func properties(_ newValue: JSONObject) -> Self {
         with(self, setter(\.properties, newValue))
     }

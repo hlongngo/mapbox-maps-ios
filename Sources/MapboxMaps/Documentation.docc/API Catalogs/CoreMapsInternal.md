@@ -36,3 +36,5 @@ Maps rendering SDK also known as GL-Native. These are for internal use only.
 - ``StyleImageRemoveUnusedCallback``
 - ``StyleLoadedCallback``
 - ``TransitionOptions-class``
+
+<!-- enums-->

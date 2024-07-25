@@ -112,7 +112,6 @@ public struct CircleAnnotation: Annotation, Equatable {
         return feature
     }
 
-
     /// Create a circle annotation with a `Point` and an optional identifier.
     public init(id: String = UUID().uuidString, point: Point, isSelected: Bool = false, isDraggable: Bool = false) {
         self.id = id
@@ -124,7 +123,9 @@ public struct CircleAnnotation: Annotation, Equatable {
     /// Create a circle annotation with a center coordinate and an optional identifier
     /// - Parameters:
     ///   - id: Optional identifier for this annotation
-    ///   - coordinate: Coordinate where this circle annotation should be centered
+    ///   - centerCoordinate: Coordinate where this circle annotation should be centered
+    ///   - isDraggable: Determines whether annotation can be manually moved around map
+    ///   - isSelected: Passes the annotation's selection state
     public init(id: String = UUID().uuidString, centerCoordinate: CLLocationCoordinate2D, isSelected: Bool = false, isDraggable: Bool = false) {
         let point = Point(centerCoordinate)
         self.init(id: id, point: point, isSelected: isSelected, isDraggable: isDraggable)
@@ -136,91 +137,96 @@ public struct CircleAnnotation: Annotation, Equatable {
     public var circleSortKey: Double?
 
     /// Amount to blur the circle. 1 blurs the circle such that only the centerpoint is full opacity.
+    /// Default value: 0.
     public var circleBlur: Double?
 
     /// The fill color of the circle.
+    /// Default value: "#000000".
     public var circleColor: StyleColor?
 
     /// The opacity at which the circle will be drawn.
+    /// Default value: 1. Value range: [0, 1]
     public var circleOpacity: Double?
 
     /// Circle radius.
+    /// Default value: 5. Minimum value: 0.
     public var circleRadius: Double?
 
     /// The stroke color of the circle.
+    /// Default value: "#000000".
     public var circleStrokeColor: StyleColor?
 
     /// The opacity of the circle's stroke.
+    /// Default value: 1. Value range: [0, 1]
     public var circleStrokeOpacity: Double?
 
     /// The width of the circle's stroke. Strokes are placed outside of the `circle-radius`.
+    /// Default value: 0. Minimum value: 0.
     public var circleStrokeWidth: Double?
 
 }
 
 @_documentation(visibility: public)
- extension CircleAnnotation {
+extension CircleAnnotation {
 
     /// Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.
-    @_documentation(visibility: public)
     public func circleSortKey(_ newValue: Double) -> Self {
         with(self, setter(\.circleSortKey, newValue))
     }
 
     /// Amount to blur the circle. 1 blurs the circle such that only the centerpoint is full opacity.
-    @_documentation(visibility: public)
+    /// Default value: 0.
     public func circleBlur(_ newValue: Double) -> Self {
         with(self, setter(\.circleBlur, newValue))
     }
 
     /// The fill color of the circle.
-    @_documentation(visibility: public)
+    /// Default value: "#000000".
     public func circleColor(_ color: UIColor) -> Self {
         circleColor(StyleColor(color))
     }
 
     /// The fill color of the circle.
-    @_documentation(visibility: public)
+    /// Default value: "#000000".
     public func circleColor(_ newValue: StyleColor) -> Self {
         with(self, setter(\.circleColor, newValue))
     }
 
     /// The opacity at which the circle will be drawn.
-    @_documentation(visibility: public)
+    /// Default value: 1. Value range: [0, 1]
     public func circleOpacity(_ newValue: Double) -> Self {
         with(self, setter(\.circleOpacity, newValue))
     }
 
     /// Circle radius.
-    @_documentation(visibility: public)
+    /// Default value: 5. Minimum value: 0.
     public func circleRadius(_ newValue: Double) -> Self {
         with(self, setter(\.circleRadius, newValue))
     }
 
     /// The stroke color of the circle.
-    @_documentation(visibility: public)
+    /// Default value: "#000000".
     public func circleStrokeColor(_ color: UIColor) -> Self {
         circleStrokeColor(StyleColor(color))
     }
 
     /// The stroke color of the circle.
-    @_documentation(visibility: public)
+    /// Default value: "#000000".
     public func circleStrokeColor(_ newValue: StyleColor) -> Self {
         with(self, setter(\.circleStrokeColor, newValue))
     }
 
     /// The opacity of the circle's stroke.
-    @_documentation(visibility: public)
+    /// Default value: 1. Value range: [0, 1]
     public func circleStrokeOpacity(_ newValue: Double) -> Self {
         with(self, setter(\.circleStrokeOpacity, newValue))
     }
 
     /// The width of the circle's stroke. Strokes are placed outside of the `circle-radius`.
-    @_documentation(visibility: public)
+    /// Default value: 0. Minimum value: 0.
     public func circleStrokeWidth(_ newValue: Double) -> Self {
         with(self, setter(\.circleStrokeWidth, newValue))
     }
-
 
     /// Adds a handler for tap gesture on current annotation.
     ///
@@ -228,7 +234,6 @@ public struct CircleAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    @_documentation(visibility: public)
     public func onTapGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
         with(self, setter(\.tapHandler, handler))
     }
@@ -237,7 +242,6 @@ public struct CircleAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    @_documentation(visibility: public)
     public func onTapGesture(handler: @escaping () -> Void) -> Self {
         onTapGesture { _ in
             handler()
@@ -251,7 +255,6 @@ public struct CircleAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    @_documentation(visibility: public)
     public func onLongPressGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
         with(self, setter(\.longPressHandler, handler))
     }
@@ -260,7 +263,6 @@ public struct CircleAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    @_documentation(visibility: public)
     public func onLongPressGesture(handler: @escaping () -> Void) -> Self {
         onLongPressGesture { _ in
             handler()
@@ -268,7 +270,6 @@ public struct CircleAnnotation: Annotation, Equatable {
         }
     }
 }
-
 
 @available(iOS 13.0, *)
 extension CircleAnnotation: MapContent, PrimitiveMapContent, MapContentAnnotation {

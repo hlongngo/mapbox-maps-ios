@@ -139,7 +139,7 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
         }
         annotations = resolvedAnnotations
     }
-      
+
     func destroy() {
         guard destroyOnce.continueOnce() else { return }
 
@@ -240,8 +240,8 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
 
     // MARK: - Common layer properties
 
-
     /// Whether or not the fill should be antialiased.
+    /// Default value: true.
     public var fillAntialias: Bool? {
         get {
             return layerProperties["fill-antialias"] as? Bool
@@ -252,6 +252,7 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
     }
 
     /// Controls the intensity of light emitted on the source features.
+    /// Default value: 0. Minimum value: 0.
     public var fillEmissiveStrength: Double? {
         get {
             return layerProperties["fill-emissive-strength"] as? Double
@@ -262,6 +263,7 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
     }
 
     /// The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively.
+    /// Default value: [0,0].
     public var fillTranslate: [Double]? {
         get {
             return layerProperties["fill-translate"] as? [Double]
@@ -272,6 +274,7 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
     }
 
     /// Controls the frame of reference for `fill-translate`.
+    /// Default value: "map".
     public var fillTranslateAnchor: FillTranslateAnchor? {
         get {
             return layerProperties["fill-translate-anchor"].flatMap { $0 as? String }.flatMap(FillTranslateAnchor.init(rawValue:))
@@ -281,7 +284,6 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
         }
     }
 
-    /// 
     /// Slot for the underlying layer.
     ///
     /// Use this property to position the annotations relative to other map features if you use Mapbox Standard Style.
@@ -296,7 +298,6 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
     }
 
     // MARK: - User interaction handling
-
 
     func handleTap(layerId: String, feature: Feature, context: MapContentGestureContext) -> Bool {
 
@@ -334,7 +335,7 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
             annotation.id == featureId && annotation.isDraggable
         }
 
-        func tryBeginDragging(_ annotations: inout [PolygonAnnotation], idx: Int) -> Bool  {
+        func tryBeginDragging(_ annotations: inout [PolygonAnnotation], idx: Int) -> Bool {
             var annotation = annotations[idx]
             // If no drag handler set, the dragging is allowed
             let dragAllowed = annotation.dragBeginHandler?(&annotation, context) ?? true
@@ -418,6 +419,5 @@ public class PolygonAnnotationManager: AnnotationManagerInternal {
         }
     }
 }
-
 
 // End of generated file.

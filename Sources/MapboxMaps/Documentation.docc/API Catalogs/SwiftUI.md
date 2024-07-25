@@ -9,6 +9,10 @@
 ### SwiftUI
 - ``Map-swift.struct``
 - ``MapContent``
+- ``ConditionalMapContent``
+- ``EmptyMapContent``
+- ``OptionalMapContent``
+- ``TupleMapContent``
 - ``MapContentBuilder``
 - ``MapStyle``
 - ``Viewport``
@@ -29,4 +33,3 @@
 - ``MapURLOpener``
 - ``ForEvery``
 - ``ArrayBuilder``
-

@@ -4,17 +4,14 @@ protocol PrimitiveMapContent {
 }
 
 @available(iOS 13.0, *)
-
 extension PrimitiveMapContent {
     /// :nodoc:
     public var body: Never { fatalError("shouldn't be called") }
 }
 
-
 extension Never: MapStyleContent {
    public var body: Never { fatalError("shouldn't be called") }
 }
-
 
 extension Never: MapContent {
    public var content: Never { fatalError("shouldn't be called") }

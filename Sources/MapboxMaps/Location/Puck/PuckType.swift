@@ -87,6 +87,7 @@ public struct Puck2DConfiguration: Equatable {
     ///   - bearingImage: The image used as the middle of the location indicator.
     ///   - shadowImage: The image that acts as a background of the location indicator.
     ///   - scale: The size of the images, as a scale factor applied to the size of the specified image.
+    ///   - pulsing: The configuration parameters for sonar-like pulsing circle animation shown around the 2D puck.
     ///   - showsAccuracyRing: Indicates whether the location accurary ring should be shown.
     ///   - opacity: The opacity of the entire location indicator.
     public init(
@@ -119,6 +120,7 @@ public struct Puck2DConfiguration: Equatable {
     ///   - accuracyRingColor:The color of the accuracy ring.
     ///   - accuracyRingBorderColor: The color of the accuracy ring border.
     ///   - opacity: The opacity of the entire location indicator.
+    ///   - layerPosition: Specifies the position at which a layer will be added.
     public init(
         topImage: UIImage? = nil,
         bearingImage: UIImage? = nil,
@@ -168,15 +170,15 @@ public struct Puck3DConfiguration: Equatable {
     ///
     ///  - Note: Shadows may impose extra performance costs and lead to extra rendering.
     @_documentation(visibility: public)
-     public var modelCastShadows: Value<Bool>?
+    public var modelCastShadows: Value<Bool>?
 
     /// Enable/disable shadow receiving for the puck model
     @_documentation(visibility: public)
-     public var modelReceiveShadows: Value<Bool>?
+    public var modelReceiveShadows: Value<Bool>?
 
     /// Defines scaling mode. Only applies to location-indicator type layers. Default to ``ModelScaleMode/viewport``.
     @_documentation(visibility: public)
-     public var modelScaleMode: Value<ModelScaleMode>?
+    public var modelScaleMode: Value<ModelScaleMode>?
 
     /// Strength of the emission.
     ///
@@ -224,10 +226,11 @@ public struct Puck3DConfiguration: Equatable {
     ///   - modelOpacity: The opacity of the model used as the location puck
     ///   - modelCastShadows: Enable/disable shadow casting for the puck model
     ///   - modelReceiveShadows: Enable/disable shadow receiving for the puck model
+    ///   - modelScaleMode: Defines scaling mode. Only applies to location-indicator type layers.
     ///   - modelEmissiveStrength: Strength of the light emission.
     ///   - layerPosition: Defines relative position of the puck layer.
     @_documentation(visibility: public)
-     public init(
+    @_spi(Experimental) public init(
         model: Model,
         modelScale: Value<[Double]>? = nil,
         modelRotation: Value<[Double]>? = nil,

@@ -1,7 +1,7 @@
 import os.log
 
 @available(iOS 13.0, *)
-
+@_spi(Experimental)
 extension StyleImport: MapStyleContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {
         node.mount(MountedStyleImport(

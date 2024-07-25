@@ -109,7 +109,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
         return feature
     }
 
-
     /// Create a polygon annotation with a `Polygon` and an optional identifier.
     public init(id: String = UUID().uuidString, polygon: Polygon, isSelected: Bool = false, isDraggable: Bool = false) {
         self.id = id
@@ -124,9 +123,11 @@ public struct PolygonAnnotation: Annotation, Equatable {
     public var fillSortKey: Double?
 
     /// The color of the filled part of this layer. This color can be specified as `rgba` with an alpha component and the color's opacity will not affect the opacity of the 1px stroke, if it is used.
+    /// Default value: "#000000".
     public var fillColor: StyleColor?
 
     /// The opacity of the entire fill layer. In contrast to the `fill-color`, this value will also affect the 1px stroke around the fill, if the stroke is used.
+    /// Default value: 1. Value range: [0, 1]
     public var fillOpacity: Double?
 
     /// The outline color of the fill. Matches the value of `fill-color` if unspecified.
@@ -138,50 +139,45 @@ public struct PolygonAnnotation: Annotation, Equatable {
 }
 
 @_documentation(visibility: public)
- extension PolygonAnnotation {
+extension PolygonAnnotation {
 
     /// Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.
-    @_documentation(visibility: public)
     public func fillSortKey(_ newValue: Double) -> Self {
         with(self, setter(\.fillSortKey, newValue))
     }
 
     /// The color of the filled part of this layer. This color can be specified as `rgba` with an alpha component and the color's opacity will not affect the opacity of the 1px stroke, if it is used.
-    @_documentation(visibility: public)
+    /// Default value: "#000000".
     public func fillColor(_ color: UIColor) -> Self {
         fillColor(StyleColor(color))
     }
 
     /// The color of the filled part of this layer. This color can be specified as `rgba` with an alpha component and the color's opacity will not affect the opacity of the 1px stroke, if it is used.
-    @_documentation(visibility: public)
+    /// Default value: "#000000".
     public func fillColor(_ newValue: StyleColor) -> Self {
         with(self, setter(\.fillColor, newValue))
     }
 
     /// The opacity of the entire fill layer. In contrast to the `fill-color`, this value will also affect the 1px stroke around the fill, if the stroke is used.
-    @_documentation(visibility: public)
+    /// Default value: 1. Value range: [0, 1]
     public func fillOpacity(_ newValue: Double) -> Self {
         with(self, setter(\.fillOpacity, newValue))
     }
 
     /// The outline color of the fill. Matches the value of `fill-color` if unspecified.
-    @_documentation(visibility: public)
     public func fillOutlineColor(_ color: UIColor) -> Self {
         fillOutlineColor(StyleColor(color))
     }
 
     /// The outline color of the fill. Matches the value of `fill-color` if unspecified.
-    @_documentation(visibility: public)
     public func fillOutlineColor(_ newValue: StyleColor) -> Self {
         with(self, setter(\.fillOutlineColor, newValue))
     }
 
     /// Name of image in sprite to use for drawing image fills. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels.
-    @_documentation(visibility: public)
     public func fillPattern(_ newValue: String) -> Self {
         with(self, setter(\.fillPattern, newValue))
     }
-
 
     /// Adds a handler for tap gesture on current annotation.
     ///
@@ -189,7 +185,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    @_documentation(visibility: public)
     public func onTapGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
         with(self, setter(\.tapHandler, handler))
     }
@@ -198,7 +193,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    @_documentation(visibility: public)
     public func onTapGesture(handler: @escaping () -> Void) -> Self {
         onTapGesture { _ in
             handler()
@@ -212,7 +206,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    @_documentation(visibility: public)
     public func onLongPressGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
         with(self, setter(\.longPressHandler, handler))
     }
@@ -221,7 +214,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    @_documentation(visibility: public)
     public func onLongPressGesture(handler: @escaping () -> Void) -> Self {
         onLongPressGesture { _ in
             handler()
@@ -229,7 +221,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
         }
     }
 }
-
 
 @available(iOS 13.0, *)
 extension PolygonAnnotation: MapContent, PrimitiveMapContent, MapContentAnnotation {

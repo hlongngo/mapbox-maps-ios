@@ -5,7 +5,7 @@ import UIKit
 ///
 /// - SeeAlso: [Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/#layers-raster-particle)
 @_documentation(visibility: public)
- public struct RasterParticleLayer: Layer, Equatable {
+@_spi(Experimental) public struct RasterParticleLayer: Layer, Equatable {
 
     // MARK: - Conformance to `Layer` protocol
     /// Unique layer name
@@ -19,7 +19,7 @@ import UIKit
     /// An expression specifying conditions on source features.
     /// Only features that match the filter are displayed.
     @_documentation(visibility: public)
-    public var filter: Expression?
+    public var filter: Exp?
 
     /// Name of a source description to be used for this layer.
     /// Required for all layer types except ``BackgroundLayer``, ``SkyLayer``, and ``LocationIndicatorLayer``.
@@ -58,10 +58,12 @@ import UIKit
     public var rasterParticleColor: Value<StyleColor>?
 
     /// Defines the amount of particles per tile.
+    /// Default value: 512. Minimum value: 1.
     @_documentation(visibility: public)
     public var rasterParticleCount: Value<Double>?
 
     /// Defines defines the opacity coefficient applied to the faded particles in each frame. In practice, this property controls the length of the particle tail.
+    /// Default value: 0.98. Value range: [0, 1]
     @_documentation(visibility: public)
     public var rasterParticleFadeOpacityFactor: Value<Double>?
 
@@ -70,14 +72,17 @@ import UIKit
     public var rasterParticleFadeOpacityFactorTransition: StyleTransition?
 
     /// Defines the maximum speed for particles. Velocities with magnitudes equal to or exceeding this value are clamped to the max value.
+    /// Default value: 1. Minimum value: 1.
     @_documentation(visibility: public)
     public var rasterParticleMaxSpeed: Value<Double>?
 
     /// Defines a coefficient for a time period at which particles will restart at a random position, to avoid degeneration (empty areas without particles).
+    /// Default value: 0.8. Value range: [0, 1]
     @_documentation(visibility: public)
     public var rasterParticleResetRateFactor: Value<Double>?
 
     /// Defines a coefficient for the speed of particles’ motion.
+    /// Default value: 0.2. Value range: [0, 1]
     @_documentation(visibility: public)
     public var rasterParticleSpeedFactor: Value<Double>?
 
@@ -123,7 +128,7 @@ import UIKit
         let container = try decoder.container(keyedBy: RootCodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         type = try container.decode(LayerType.self, forKey: .type)
-        filter = try container.decodeIfPresent(Expression.self, forKey: .filter)
+        filter = try container.decodeIfPresent(Exp.self, forKey: .filter)
         source = try container.decodeIfPresent(String.self, forKey: .source)
         sourceLayer = try container.decodeIfPresent(String.self, forKey: .sourceLayer)
         slot = try container.decodeIfPresent(Slot.self, forKey: .slot)
@@ -179,18 +184,15 @@ import UIKit
     }
 }
 
-@_documentation(visibility: public)
- extension RasterParticleLayer {
+extension RasterParticleLayer {
     /// An expression specifying conditions on source features.
     /// Only features that match the filter are displayed.
-    @_documentation(visibility: public)
-    public func filter(_ newValue: Expression) -> Self {
+    public func filter(_ newValue: Exp) -> Self {
         with(self, setter(\.filter, newValue))
     }
 
     /// Name of a source description to be used for this layer.
     /// Required for all layer types except ``BackgroundLayer``, ``SkyLayer``, and ``LocationIndicatorLayer``.
-    @_documentation(visibility: public)
     public func source(_ newValue: String) -> Self {
         with(self, setter(\.source, newValue))
     }
@@ -199,158 +201,158 @@ import UIKit
     ///
     /// Required for vector tile sources.
     /// Prohibited for all other source types, including GeoJSON sources.
-    @_documentation(visibility: public)
     public func sourceLayer(_ newValue: String) -> Self {
         with(self, setter(\.sourceLayer, newValue))
     }
 
     /// The slot this layer is assigned to.
     /// If specified, and a slot with that name exists, it will be placed at that position in the layer order.
-    @_documentation(visibility: public)
     public func slot(_ newValue: Slot?) -> Self {
         with(self, setter(\.slot, newValue))
     }
 
     /// The minimum zoom level for the layer. At zoom levels less than the minzoom, the layer will be hidden.
-    @_documentation(visibility: public)
     public func minZoom(_ newValue: Double) -> Self {
         with(self, setter(\.minZoom, newValue))
     }
 
     /// The maximum zoom level for the layer. At zoom levels equal to or greater than the maxzoom, the layer will be hidden.
-    @_documentation(visibility: public)
     public func maxZoom(_ newValue: Double) -> Self {
         with(self, setter(\.maxZoom, newValue))
     }
 
     /// Displayed band of raster array source layer
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleArrayBand(_ constant: String) -> Self {
         with(self, setter(\.rasterParticleArrayBand, .constant(constant)))
     }
 
     /// Displayed band of raster array source layer
     @_documentation(visibility: public)
-    
-    public func rasterParticleArrayBand(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleArrayBand(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleArrayBand, .expression(expression)))
     }
 
-
     /// Defines a color map by which to colorize a raster particle layer, parameterized by the `["raster-particle-speed"]` expression and evaluated at 256 uniformly spaced steps over the range specified by `raster-particle-max-speed`.
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleColor(_ constant: StyleColor) -> Self {
         with(self, setter(\.rasterParticleColor, .constant(constant)))
     }
 
     /// Defines a color map by which to colorize a raster particle layer, parameterized by the `["raster-particle-speed"]` expression and evaluated at 256 uniformly spaced steps over the range specified by `raster-particle-max-speed`.
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleColor(_ color: UIColor) -> Self {
         with(self, setter(\.rasterParticleColor, .constant(StyleColor(color))))
     }
 
     /// Defines a color map by which to colorize a raster particle layer, parameterized by the `["raster-particle-speed"]` expression and evaluated at 256 uniformly spaced steps over the range specified by `raster-particle-max-speed`.
     @_documentation(visibility: public)
-    
-    public func rasterParticleColor(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleColor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleColor, .expression(expression)))
     }
 
-
     /// Defines the amount of particles per tile.
+    /// Default value: 512. Minimum value: 1.
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleCount(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleCount, .constant(constant)))
     }
 
     /// Defines the amount of particles per tile.
+    /// Default value: 512. Minimum value: 1.
     @_documentation(visibility: public)
-    
-    public func rasterParticleCount(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleCount(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleCount, .expression(expression)))
     }
 
-
     /// Defines defines the opacity coefficient applied to the faded particles in each frame. In practice, this property controls the length of the particle tail.
+    /// Default value: 0.98. Value range: [0, 1]
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleFadeOpacityFactor(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleFadeOpacityFactor, .constant(constant)))
     }
 
     /// Transition property for `rasterParticleFadeOpacityFactor`
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleFadeOpacityFactorTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.rasterParticleFadeOpacityFactorTransition, transition))
     }
 
     /// Defines defines the opacity coefficient applied to the faded particles in each frame. In practice, this property controls the length of the particle tail.
+    /// Default value: 0.98. Value range: [0, 1]
     @_documentation(visibility: public)
-    
-    public func rasterParticleFadeOpacityFactor(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleFadeOpacityFactor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleFadeOpacityFactor, .expression(expression)))
     }
 
-
     /// Defines the maximum speed for particles. Velocities with magnitudes equal to or exceeding this value are clamped to the max value.
+    /// Default value: 1. Minimum value: 1.
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleMaxSpeed(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleMaxSpeed, .constant(constant)))
     }
 
     /// Defines the maximum speed for particles. Velocities with magnitudes equal to or exceeding this value are clamped to the max value.
+    /// Default value: 1. Minimum value: 1.
     @_documentation(visibility: public)
-    
-    public func rasterParticleMaxSpeed(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleMaxSpeed(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleMaxSpeed, .expression(expression)))
     }
 
-
     /// Defines a coefficient for a time period at which particles will restart at a random position, to avoid degeneration (empty areas without particles).
+    /// Default value: 0.8. Value range: [0, 1]
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleResetRateFactor(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleResetRateFactor, .constant(constant)))
     }
 
     /// Defines a coefficient for a time period at which particles will restart at a random position, to avoid degeneration (empty areas without particles).
+    /// Default value: 0.8. Value range: [0, 1]
     @_documentation(visibility: public)
-    
-    public func rasterParticleResetRateFactor(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleResetRateFactor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleResetRateFactor, .expression(expression)))
     }
 
-
     /// Defines a coefficient for the speed of particles’ motion.
+    /// Default value: 0.2. Value range: [0, 1]
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleSpeedFactor(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleSpeedFactor, .constant(constant)))
     }
 
     /// Transition property for `rasterParticleSpeedFactor`
     @_documentation(visibility: public)
-    
+    @_spi(Experimental)
     public func rasterParticleSpeedFactorTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.rasterParticleSpeedFactorTransition, transition))
     }
 
     /// Defines a coefficient for the speed of particles’ motion.
+    /// Default value: 0.2. Value range: [0, 1]
     @_documentation(visibility: public)
-    
-    public func rasterParticleSpeedFactor(_ expression: Expression) -> Self {
+    @_spi(Experimental)
+    public func rasterParticleSpeedFactor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleSpeedFactor, .expression(expression)))
     }
 }
 
 @available(iOS 13.0, *)
-
+@_spi(Experimental)
 extension RasterParticleLayer: MapStyleContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {
         node.mount(MountedLayer(layer: self))

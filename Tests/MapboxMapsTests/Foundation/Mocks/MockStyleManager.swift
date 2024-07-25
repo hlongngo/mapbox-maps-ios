@@ -581,16 +581,15 @@ class MockStyleManager: StyleManagerProtocol {
 
     struct SetStyleCustomRasterSourceTileDataParameters {
         let sourceID: String
-        let tileId: CanonicalTileID
-        let image: CoreMapsImage?
+        let tiles: [MapboxMaps.CoreCustomRasterSourceTileData]
     }
     let setStyleCustomRasterSourceTileDataStub = Stub<SetStyleCustomRasterSourceTileDataParameters, Expected<NSNull, NSString>>(defaultReturnValue: .init(value: NSNull()))
+
     func setStyleCustomRasterSourceTileDataForSourceId(
         _ sourceId: String,
-        tileId: CanonicalTileID,
-        image: CoreMapsImage?
+        tiles: [MapboxMaps.CoreCustomRasterSourceTileData]
     ) -> Expected<NSNull, NSString> {
-        setStyleCustomRasterSourceTileDataStub.call(with: .init(sourceID: sourceId, tileId: tileId, image: image))
+        setStyleCustomRasterSourceTileDataStub.call(with: .init(sourceID: sourceId, tiles: tiles))
     }
 
     struct InvalidateStyleCustomRasterSourceTileParameters {
@@ -788,7 +787,7 @@ struct NonEncodableLayer: Layer {
     var id: String = "dummy-non-encodable-layer-id"
     var visibility: Value<Visibility> = .constant(.visible)
     var type: LayerType = .random()
-    var filter: Expression?
+    var filter: Exp?
     var source: String?
     var sourceLayer: String?
     var minZoom: Double?

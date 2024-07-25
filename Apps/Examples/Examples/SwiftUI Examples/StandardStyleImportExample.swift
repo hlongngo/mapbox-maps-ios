@@ -1,5 +1,5 @@
 import SwiftUI
- import MapboxMaps
+import MapboxMaps
 
 @available(iOS 14.0, *)
 struct StandardStyleImportExample: View {

@@ -50,6 +50,9 @@ public struct LineJoin: RawRepresentable, Codable, Hashable {
     /// A join with a sharp, angled corner which is drawn with the outer sides beyond the endpoint of the path until they meet.
     public static let miter = LineJoin(rawValue: "miter")
 
+    /// Line segments are not joined together, each one creates a separate line. Useful in combination with line-pattern. Line-cap property is not respected. Can't be used with data-driven styling.
+    public static let none = LineJoin(rawValue: "none")
+
 }
 
 // MARK: ICON_ANCHOR
@@ -610,6 +613,24 @@ public struct TextWritingMode: RawRepresentable, Codable, Hashable {
 
     /// If a text's language supports vertical writing mode, symbols would be laid out vertically.
     public static let vertical = TextWritingMode(rawValue: "vertical")
+
+}
+
+// MARK: CLIP_LAYER_TYPES
+
+/// Layer types that will also be removed if fallen below this clip layer.
+public struct ClipLayerTypes: RawRepresentable, Codable, Hashable {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    /// If present the clip layer would remove all 3d model layers below it. Currently only instanced models (e.g. trees) are removed.
+    public static let model = ClipLayerTypes(rawValue: "model")
+
+    /// If present the clip layer would remove all symbol layers below it.
+    public static let symbol = ClipLayerTypes(rawValue: "symbol")
 
 }
 

@@ -1,5 +1,5 @@
 import XCTest
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 @available(iOS 13.0, *)
 final class MapContentReconcilerTests: XCTestCase {

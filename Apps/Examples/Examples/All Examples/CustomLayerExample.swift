@@ -1,5 +1,5 @@
 import UIKit
- import MapboxMaps
+@_spi(Experimental) import MapboxMaps
 import MetalKit
 
 final class CustomLayerExample: UIViewController, ExampleProtocol {
@@ -24,7 +24,7 @@ final class CustomLayerExample: UIViewController, ExampleProtocol {
         let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: 58, longitude: 20), zoom: 3)
 
         mapView = MapView(frame: view.bounds, mapInitOptions: MapInitOptions(cameraOptions: cameraOptions))
-        mapView.mapboxMap.mapStyle = .streets 
+        mapView.mapboxMap.mapStyle = .streets
         if #available(iOS 13.0, *) {
             mapView.mapboxMap.setMapStyleContent {
                 StyleProjection(name: .mercator)

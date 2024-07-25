@@ -1,6 +1,6 @@
 // This file is generated
 import XCTest
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 final class ModelLayerTests: XCTestCase {
 
@@ -87,6 +87,7 @@ final class ModelLayerTests: XCTestCase {
        layer.modelCutoffFadeRange = Value<Double>.testConstantValue()
        layer.modelEmissiveStrength = Value<Double>.testConstantValue()
        layer.modelEmissiveStrengthTransition = StyleTransition(duration: 10.0, delay: 10.0)
+       layer.modelFrontCutoff = Value<[Double]>.testConstantValue()
        layer.modelHeightBasedEmissiveStrengthMultiplier = Value<[Double]>.testConstantValue()
        layer.modelHeightBasedEmissiveStrengthMultiplierTransition = StyleTransition(duration: 10.0, delay: 10.0)
        layer.modelOpacity = Value<Double>.testConstantValue()
@@ -124,6 +125,7 @@ final class ModelLayerTests: XCTestCase {
            XCTAssertEqual(layer.modelColorMixIntensity, Value<Double>.testConstantValue())
            XCTAssertEqual(layer.modelCutoffFadeRange, Value<Double>.testConstantValue())
            XCTAssertEqual(layer.modelEmissiveStrength, Value<Double>.testConstantValue())
+           XCTAssertEqual(layer.modelFrontCutoff, Value<[Double]>.testConstantValue())
            XCTAssertEqual(layer.modelHeightBasedEmissiveStrengthMultiplier, Value<[Double]>.testConstantValue())
            XCTAssertEqual(layer.modelOpacity, Value<Double>.testConstantValue())
            XCTAssertEqual(layer.modelReceiveShadows, Value<Bool>.testConstantValue())
@@ -140,7 +142,7 @@ final class ModelLayerTests: XCTestCase {
 
     func testSetPropertyValueWithFunction() {
         let layer = ModelLayer(id: "test-id", source: "source")
-            .filter(Expression.testConstantValue())
+            .filter(Exp.testConstantValue())
             .source(String.testConstantValue())
             .sourceLayer(String.testConstantValue())
             .slot(Slot.testConstantValue())
@@ -153,6 +155,7 @@ final class ModelLayerTests: XCTestCase {
             .modelColorMixIntensity(Double.testConstantValue())
             .modelCutoffFadeRange(Double.testConstantValue())
             .modelEmissiveStrength(Double.testConstantValue())
+            .modelFrontCutoff(start: 0, range: 1, end: 2)
             .modelHeightBasedEmissiveStrengthMultiplier(gradientBegin: 0, gradientEnd: 1, valueAtBegin: 2, valueAtEnd: 3, gradientCurvePower: 4)
             .modelOpacity(Double.testConstantValue())
             .modelReceiveShadows(Bool.testConstantValue())
@@ -163,7 +166,7 @@ final class ModelLayerTests: XCTestCase {
             .modelTranslation(x: 0, y: 1, z: 2)
             .modelType(ModelType.testConstantValue())
 
-        XCTAssertEqual(layer.filter, Expression.testConstantValue())
+        XCTAssertEqual(layer.filter, Exp.testConstantValue())
         XCTAssertEqual(layer.source, String.testConstantValue())
         XCTAssertEqual(layer.sourceLayer, String.testConstantValue())
         XCTAssertEqual(layer.slot, Slot.testConstantValue())
@@ -176,6 +179,7 @@ final class ModelLayerTests: XCTestCase {
         XCTAssertEqual(layer.modelColorMixIntensity, Value.constant(Double.testConstantValue()))
         XCTAssertEqual(layer.modelCutoffFadeRange, Value.constant(Double.testConstantValue()))
         XCTAssertEqual(layer.modelEmissiveStrength, Value.constant(Double.testConstantValue()))
+        XCTAssertEqual(layer.modelFrontCutoff, Value.constant([0, 1, 2]))
         XCTAssertEqual(layer.modelHeightBasedEmissiveStrengthMultiplier, Value.constant([0, 1, 2, 3, 4]))
         XCTAssertEqual(layer.modelOpacity, Value.constant(Double.testConstantValue()))
         XCTAssertEqual(layer.modelReceiveShadows, Value.constant(Bool.testConstantValue()))

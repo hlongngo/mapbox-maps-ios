@@ -1,5 +1,5 @@
 import SwiftUI
- import MapboxMaps
+import MapboxMaps
 
 /// This example shows how to use `MapReader` in order to access underlying `MapboxMap` API in SwiftUI.
 @available(iOS 14.0, *)
@@ -39,12 +39,12 @@ private class Model: ObservableObject {
         var coordinate: CLLocationCoordinate2D
     }
     @Published
-    var queryResult: QueryResult? = nil
+    var queryResult: QueryResult?
 
     @Published
     var viewport: Viewport = .styleDefault
 
-    private var cancellable: Cancelable? = nil
+    private var cancellable: Cancelable?
 
     func mapTapped(_ context: MapContentGestureContext, map: MapboxMap?, bottomInset: CGFloat) {
         cancellable?.cancel()

@@ -7,7 +7,7 @@ protocol UpdatableSource {
     func update(from old: Self, with manager: StyleSourceManagerProtocol) throws
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension VectorSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: VectorSource, with manager: StyleSourceManagerProtocol) throws {
@@ -28,7 +28,7 @@ extension VectorSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     }
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension RasterSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: RasterSource, with manager: StyleSourceManagerProtocol) throws {
@@ -49,7 +49,7 @@ extension RasterSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     }
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension RasterDemSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: RasterDemSource, with manager: StyleSourceManagerProtocol) throws {
@@ -70,7 +70,7 @@ extension RasterDemSource: UpdatableSource, MapStyleContent, PrimitiveMapContent
     }
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension RasterArraySource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: RasterArraySource, with manager: StyleSourceManagerProtocol) throws {
@@ -90,7 +90,7 @@ extension RasterArraySource: UpdatableSource, MapStyleContent, PrimitiveMapConte
     }
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension ImageSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: ImageSource, with manager: StyleSourceManagerProtocol) throws {
@@ -108,12 +108,12 @@ extension ImageSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     }
 }
 
-
+@_spi(Experimental)
 @available(iOS 13.0, *)
 extension GeoJSONSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: GeoJSONSource, with manager: StyleSourceManagerProtocol) throws {
         assert(old.id == id)
-        if !isEqual(by: \.data, lhs: self, rhs:old) {
+        if !isEqual(by: \.data, lhs: self, rhs: old) {
             guard let data else { return }
             os_log(.debug, log: .contentDSL, "source update GeoJSON data %s", id)
             manager.updateGeoJSONSource(withId: id, data: data, dataId: nil)
@@ -126,15 +126,10 @@ extension GeoJSONSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
 }
 
 @available(iOS 13.0, *)
-
+@_spi(Experimental)
 extension CustomGeometrySource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: CustomGeometrySource, with manager: StyleSourceManagerProtocol) throws {
         assert(old.id == id)
-        var props = [String: Any]()
-        encodeUpdate(\.tileCacheBudget, old: old, new: self, container: &props, key: CustomGeometrySource.CodingKeys.tileCacheBudget.rawValue)
-        if !props.isEmpty {
-            try manager.setSourceProperties(for: id, properties: props)
-        }
     }
 
     func visit(_ node: MapContentNode) {
@@ -143,15 +138,10 @@ extension CustomGeometrySource: UpdatableSource, MapStyleContent, PrimitiveMapCo
 }
 
 @available(iOS 13.0, *)
-
+@_spi(Experimental)
 extension CustomRasterSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: CustomRasterSource, with manager: StyleSourceManagerProtocol) throws {
         assert(old.id == id)
-        var props = [String: Any]()
-        encodeUpdate(\.tileCacheBudget, old: old, new: self, container: &props, key: CustomRasterSource.CodingKeys.tileCacheBudget.rawValue)
-        if !props.isEmpty {
-            try manager.setSourceProperties(for: id, properties: props)
-        }
     }
 
     func visit(_ node: MapContentNode) {

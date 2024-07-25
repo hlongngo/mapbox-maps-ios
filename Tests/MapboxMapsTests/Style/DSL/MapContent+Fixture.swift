@@ -1,5 +1,5 @@
 import SwiftUI
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 @available(iOS 13.0, *)
 struct MapContentFixture: MapContent {

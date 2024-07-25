@@ -1,4 +1,4 @@
-public struct CollectionDiff<C: Collection>: Equatable where C.Element: Equatable {
+struct CollectionDiff<C: Collection>: Equatable where C.Element: Equatable {
     struct Move: Equatable {
         let value: C.Element
         let from: C.Index

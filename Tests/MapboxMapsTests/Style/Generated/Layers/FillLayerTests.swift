@@ -1,6 +1,6 @@
 // This file is generated
 import XCTest
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 final class FillLayerTests: XCTestCase {
 
@@ -121,7 +121,7 @@ final class FillLayerTests: XCTestCase {
 
     func testSetPropertyValueWithFunction() {
         let layer = FillLayer(id: "test-id", source: "source")
-            .filter(Expression.testConstantValue())
+            .filter(Exp.testConstantValue())
             .source(String.testConstantValue())
             .sourceLayer(String.testConstantValue())
             .slot(Slot.testConstantValue())
@@ -137,7 +137,7 @@ final class FillLayerTests: XCTestCase {
             .fillTranslate(x: 0, y: 1)
             .fillTranslateAnchor(FillTranslateAnchor.testConstantValue())
 
-        XCTAssertEqual(layer.filter, Expression.testConstantValue())
+        XCTAssertEqual(layer.filter, Exp.testConstantValue())
         XCTAssertEqual(layer.source, String.testConstantValue())
         XCTAssertEqual(layer.sourceLayer, String.testConstantValue())
         XCTAssertEqual(layer.slot, Slot.testConstantValue())

@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 internal extension Double {
     static func testSourceValue() -> Double {
@@ -18,6 +18,18 @@ internal extension StyleColor {
     }
 }
 
+internal extension StyleTransition {
+    static func testConstantValue() -> StyleTransition {
+        return StyleTransition(duration: 2.0, delay: 2.0)
+    }
+}
+
+internal extension TransitionOptions {
+    static func testConstantValue() -> TransitionOptions {
+        return TransitionOptions(duration: 2.0, delay: 1.0, enablePlacementTransitions: false)
+    }
+}
+
 internal extension String {
     static func testSourceValue() -> String {
         return "test-string"
@@ -28,9 +40,9 @@ internal extension String {
     }
 }
 
-internal extension Expression {
-    static func testConstantValue() -> Expression {
-        return Expression(.all)
+internal extension Exp {
+    static func testConstantValue() -> Exp {
+        return Exp(.all)
     }
 }
 
@@ -54,8 +66,8 @@ internal extension Array where Element == Double {
     }
 }
 
-internal extension Dictionary where Key == String, Value == Expression {
-    static func testSourceValue() -> [String: Expression] {
+internal extension Dictionary where Key == String, Value == Exp {
+    static func testSourceValue() -> [String: Exp] {
         let exp = Exp(.sum) {
             10
             12

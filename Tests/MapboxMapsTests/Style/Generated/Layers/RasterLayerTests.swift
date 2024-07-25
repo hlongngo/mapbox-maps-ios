@@ -1,6 +1,6 @@
 // This file is generated
 import XCTest
- @testable import MapboxMaps
+@_spi(Experimental) @testable import MapboxMaps
 
 final class RasterLayerTests: XCTestCase {
 
@@ -136,7 +136,7 @@ final class RasterLayerTests: XCTestCase {
 
     func testSetPropertyValueWithFunction() {
         let layer = RasterLayer(id: "test-id", source: "source")
-            .filter(Expression.testConstantValue())
+            .filter(Exp.testConstantValue())
             .source(String.testConstantValue())
             .sourceLayer(String.testConstantValue())
             .slot(Slot.testConstantValue())
@@ -157,7 +157,7 @@ final class RasterLayerTests: XCTestCase {
             .rasterResampling(RasterResampling.testConstantValue())
             .rasterSaturation(Double.testConstantValue())
 
-        XCTAssertEqual(layer.filter, Expression.testConstantValue())
+        XCTAssertEqual(layer.filter, Exp.testConstantValue())
         XCTAssertEqual(layer.source, String.testConstantValue())
         XCTAssertEqual(layer.sourceLayer, String.testConstantValue())
         XCTAssertEqual(layer.slot, Slot.testConstantValue())
