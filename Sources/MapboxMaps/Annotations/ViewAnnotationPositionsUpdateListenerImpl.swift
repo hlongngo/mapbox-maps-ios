@@ -1,6 +1,6 @@
 import MapboxCoreMaps
 
-typealias ViewAnnotationPositionsUpdateCallback = ([ViewAnnotationPositionDescriptor]) -> Void
+public typealias ViewAnnotationPositionsUpdateCallback = ([ViewAnnotationPositionDescriptor]) -> Void
 
 internal final class ViewAnnotationPositionsUpdateListenerImpl: CoreViewAnnotationPositionsUpdateListener {
     private let callback: ViewAnnotationPositionsUpdateCallback

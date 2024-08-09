@@ -3,8 +3,8 @@ import CoreGraphics
 import UIKit
 import os
 
-final class Puck2DRenderer: PuckRenderer {
-    var state: PuckRendererState<Puck2DConfiguration>? {
+public class Puck2DRenderer: PuckRenderer {
+    public var state: PuckRendererState<Puck2DConfiguration>? {
         didSet {
             do {
                 if let state, state != oldValue {
@@ -32,7 +32,7 @@ final class Puck2DRenderer: PuckRenderer {
 
     private let displayLink: Signal<Void>
 
-    init(
+    public init(
         style: StyleProtocol,
         mapboxMap: MapboxMapProtocol,
         displayLink: Signal<Void>,

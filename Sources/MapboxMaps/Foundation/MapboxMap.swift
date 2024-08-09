@@ -3,7 +3,7 @@ import UIKit
 @_implementationOnly import MapboxCommon_Private
 import Turf
 
-protocol MapboxMapProtocol: AnyObject {
+public protocol MapboxMapProtocol: AnyObject {
     var cameraBounds: CameraBounds { get }
     var cameraState: CameraState { get }
     var size: CGSize { get }
@@ -400,7 +400,7 @@ public final class MapboxMap: StyleManager {
     }
 
     /// Gets the size of the map in points
-    var size: CGSize {
+    public var size: CGSize {
         get {
             CGSize(__map.getSize())
         }
@@ -845,7 +845,7 @@ public final class MapboxMap: StyleManager {
     }
 
     /// The map's current anchor, calculated after applying padding (if it exists)
-    var anchor: CGPoint {
+    public var anchor: CGPoint {
         let rect = CGRect(origin: .zero, size: size).inset(by: cameraState.padding)
         return CGPoint(x: rect.midX, y: rect.midY)
     }
@@ -903,7 +903,7 @@ public final class MapboxMap: StyleManager {
     }
 
     /// :nodoc:
-    func pointIsAboveHorizon(_ point: CGPoint) -> Bool {
+    public func pointIsAboveHorizon(_ point: CGPoint) -> Bool {
         guard projection?.name == .mercator else {
             return false
         }
@@ -1391,7 +1391,7 @@ extension MapboxMap {
 
 // MARK: - View Annotations
 
-extension MapboxMap {
+public extension MapboxMap {
     func setViewAnnotationPositionsUpdateCallback(_ callback: ViewAnnotationPositionsUpdateCallback?) {
         __map.setViewAnnotationPositionsUpdateListenerFor(callback.map {
             ViewAnnotationPositionsUpdateListenerImpl(callback: $0)

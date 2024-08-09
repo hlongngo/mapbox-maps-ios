@@ -7,7 +7,7 @@ internal protocol DateProvider {
     var now: Date { get }
 }
 
-internal protocol TimeProvider {
+public protocol TimeProvider {
     // Provides the current time
     var current: TimeInterval { get }
 }
@@ -18,8 +18,12 @@ internal struct DefaultDateProvider: DateProvider {
     }
 }
 
-internal struct DefaultTimeProvider: TimeProvider {
-    var current: TimeInterval {
+public struct DefaultTimeProvider: TimeProvider {
+    public var current: TimeInterval {
         return CACurrentMediaTime()
+    }
+    
+    public init() {
+        
     }
 }
