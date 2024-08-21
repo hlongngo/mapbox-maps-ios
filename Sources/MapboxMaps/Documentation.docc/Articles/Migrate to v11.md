@@ -129,7 +129,7 @@ We're excited to announce the launch of SwiftUI support in Mapbox Maps SDK. Swif
 
 ```swift
 import SwiftUI
- import MapboxMaps
+import MapboxMaps
 
 struct ContentView: View {
     var body: some View {

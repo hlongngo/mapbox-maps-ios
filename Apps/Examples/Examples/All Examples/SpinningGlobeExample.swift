@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
- import MapboxMaps
+import MapboxMaps
 import CoreLocation
 
 final class SpinningGlobeExample: UIViewController, GestureManagerDelegate, ExampleProtocol {

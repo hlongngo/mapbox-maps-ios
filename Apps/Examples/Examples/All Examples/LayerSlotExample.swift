@@ -1,5 +1,5 @@
 import UIKit
- import MapboxMaps
+import MapboxMaps
 
 final class LayerSlotExample: UIViewController, ExampleProtocol {
     private var mapView: MapView!

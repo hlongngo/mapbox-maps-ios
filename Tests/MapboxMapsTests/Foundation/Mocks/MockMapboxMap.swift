@@ -1,4 +1,4 @@
-@testable  import MapboxMaps
+@testable import MapboxMaps
 import CoreLocation
 import UIKit
 
