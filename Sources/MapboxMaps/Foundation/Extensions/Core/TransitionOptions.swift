@@ -7,7 +7,7 @@ import Foundation
  * property that defines specific transition timing for that specific layer property, overriding
  * the global transition values.
  */
-public struct TransitionOptions: Equatable {
+public struct TransitionOptions: Equatable, Sendable {
     /// Initializes `TransitionOptions` with provided `duration`, `delay` and `enablePlacementTransitions` flag.
     /// - Parameters:
     ///   - duration: Time allotted for transitions to complete.
@@ -49,7 +49,7 @@ extension MapboxCoreMaps.TransitionOptions {
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension TransitionOptions: MapStyleContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {

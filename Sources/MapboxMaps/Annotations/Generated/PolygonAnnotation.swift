@@ -1,17 +1,14 @@
 // This file is generated.
 import UIKit
 
-public struct PolygonAnnotation: Annotation, Equatable {
-
+public struct PolygonAnnotation: Annotation, Equatable, AnnotationInternal {
     /// Identifier for this annotation
     internal(set) public var id: String
 
     /// The geometry backing this annotation
-    public var geometry: Geometry {
-        return .polygon(polygon)
-    }
+    public var geometry: Geometry { polygon.geometry }
 
-    /// The polygon backing this annotation
+    /// The Polygon backing this annotation
     public var polygon: Polygon
 
     /// Toggles the annotation's selection state.
@@ -25,7 +22,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     /// Handles tap gesture on this annotation.
     ///
     /// Should return `true` if the gesture is handled, or `false` to propagate it to the annotations or layers below.
-    public var tapHandler: ((MapContentGestureContext) -> Bool)? {
+    public var tapHandler: ((InteractionContext) -> Bool)? {
         get { gestureHandlers.value.tap }
         set { gestureHandlers.value.tap = newValue }
     }
@@ -33,7 +30,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     /// Handles long press gesture on this annotation.
     ///
     /// Should return `true` if the gesture is handled, or `false` to propagate it to the annotations or layers below.
-    public var longPressHandler: ((MapContentGestureContext) -> Bool)? {
+    public var longPressHandler: ((InteractionContext) -> Bool)? {
         get { gestureHandlers.value.longPress }
         set { gestureHandlers.value.longPress = newValue }
     }
@@ -48,7 +45,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
     /// Return `true` to allow dragging to begin, or `false` to prevent it and propagate the gesture to the map's other annotations or layers.
-    public var dragBeginHandler: ((inout PolygonAnnotation, MapContentGestureContext) -> Bool)? {
+    public var dragBeginHandler: ((inout PolygonAnnotation, InteractionContext) -> Bool)? {
         get { gestureHandlers.value.dragBegin }
         set { gestureHandlers.value.dragBegin = newValue }
     }
@@ -58,7 +55,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     /// The handler receives the `annotation` and the `context` parameters of the gesture:
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
-    public var dragChangeHandler: ((inout PolygonAnnotation, MapContentGestureContext) -> Void)? {
+    public var dragChangeHandler: ((inout PolygonAnnotation, InteractionContext) -> Void)? {
         get { gestureHandlers.value.dragChange }
         set { gestureHandlers.value.dragChange = newValue }
     }
@@ -66,7 +63,7 @@ public struct PolygonAnnotation: Annotation, Equatable {
     /// The handler receives the `annotation` and the `context` parameters of the gesture:
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
-    public var dragEndHandler: ((inout PolygonAnnotation, MapContentGestureContext) -> Void)? {
+    public var dragEndHandler: ((inout PolygonAnnotation, InteractionContext) -> Void)? {
         get { gestureHandlers.value.dragEnd }
         set { gestureHandlers.value.dragEnd = newValue }
     }
@@ -109,6 +106,10 @@ public struct PolygonAnnotation: Annotation, Equatable {
         return feature
     }
 
+    mutating func drag(translation: CGPoint, in map: MapboxMapProtocol) {
+        polygon = GeometryType.projection(of: polygon, for: translation, in: map)
+    }
+
     /// Create a polygon annotation with a `Polygon` and an optional identifier.
     public init(id: String = UUID().uuidString, polygon: Polygon, isSelected: Bool = false, isDraggable: Bool = false) {
         self.id = id
@@ -138,7 +139,6 @@ public struct PolygonAnnotation: Annotation, Equatable {
 
 }
 
-@_documentation(visibility: public)
 extension PolygonAnnotation {
 
     /// Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.
@@ -185,7 +185,7 @@ extension PolygonAnnotation {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    public func onTapGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
+    public func onTapGesture(handler: @escaping (InteractionContext) -> Bool) -> Self {
         with(self, setter(\.tapHandler, handler))
     }
 
@@ -206,7 +206,7 @@ extension PolygonAnnotation {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    public func onLongPressGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
+    public func onLongPressGesture(handler: @escaping (InteractionContext) -> Bool) -> Self {
         with(self, setter(\.longPressHandler, handler))
     }
 
@@ -223,7 +223,7 @@ extension PolygonAnnotation {
 }
 
 @available(iOS 13.0, *)
-extension PolygonAnnotation: MapContent, PrimitiveMapContent, MapContentAnnotation {
+extension PolygonAnnotation: MapContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {
         PolygonAnnotationGroup { self }.visit(node)
     }

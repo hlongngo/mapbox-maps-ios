@@ -7,7 +7,7 @@ import MapboxCoreMaps
 
 extension PerformanceStatisticsOptions {
     
-    public struct SamplerOptions: OptionSet, Hashable {
+    public struct SamplerOptions: OptionSet, Hashable, Sendable {
         /// Enables the collection of `cumulativeValues`, which are GPU resource statistics.
         public static let cumulative = SamplerOptions(rawValue: 1 << 0)
         /// Enables the collection of `perFrameValues`, which are CPU timeline duration statistics.

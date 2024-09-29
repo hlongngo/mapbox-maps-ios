@@ -98,11 +98,6 @@ public struct ModelLayer: Layer, Equatable {
     @_documentation(visibility: public)
     public var modelEmissiveStrengthTransition: StyleTransition?
 
-    /// An array for configuring the fade-out effect for the front cutoff of content on pitched map views. It contains three values: start, range and final opacity. The start parameter defines the point at which the fade-out effect begins, with smaller values causing the effect to start earlier. The range parameter specifies how long the fade-out effect will last. A value of 0.0 for range makes content disappear immediately without a fade-out effect. The final opacity determines content opacity at the end of the fade-out effect. A value of 1.0 for final opacity means that the cutoff is completely disabled.
-    /// Default value: [0,0,1]. Minimum value: [0,0,0]. Maximum value: [1,1,1].
-    @_documentation(visibility: public)
-    public var modelFrontCutoff: Value<[Double]>?
-
     /// Emissive strength multiplier along model height (gradient begin, gradient end, value at begin, value at end, gradient curve power (logarithmic scale, curve power = pow(10, val)).
     /// Default value: [1,1,1,1,0].
     @_documentation(visibility: public)
@@ -202,7 +197,6 @@ public struct ModelLayer: Layer, Equatable {
         try paintContainer.encodeIfPresent(modelCutoffFadeRange, forKey: .modelCutoffFadeRange)
         try paintContainer.encodeIfPresent(modelEmissiveStrength, forKey: .modelEmissiveStrength)
         try paintContainer.encodeIfPresent(modelEmissiveStrengthTransition, forKey: .modelEmissiveStrengthTransition)
-        try paintContainer.encodeIfPresent(modelFrontCutoff, forKey: .modelFrontCutoff)
         try paintContainer.encodeIfPresent(modelHeightBasedEmissiveStrengthMultiplier, forKey: .modelHeightBasedEmissiveStrengthMultiplier)
         try paintContainer.encodeIfPresent(modelHeightBasedEmissiveStrengthMultiplierTransition, forKey: .modelHeightBasedEmissiveStrengthMultiplierTransition)
         try paintContainer.encodeIfPresent(modelOpacity, forKey: .modelOpacity)
@@ -246,7 +240,6 @@ public struct ModelLayer: Layer, Equatable {
             modelCutoffFadeRange = try paintContainer.decodeIfPresent(Value<Double>.self, forKey: .modelCutoffFadeRange)
             modelEmissiveStrength = try paintContainer.decodeIfPresent(Value<Double>.self, forKey: .modelEmissiveStrength)
             modelEmissiveStrengthTransition = try paintContainer.decodeIfPresent(StyleTransition.self, forKey: .modelEmissiveStrengthTransition)
-            modelFrontCutoff = try paintContainer.decodeIfPresent(Value<[Double]>.self, forKey: .modelFrontCutoff)
             modelHeightBasedEmissiveStrengthMultiplier = try paintContainer.decodeIfPresent(Value<[Double]>.self, forKey: .modelHeightBasedEmissiveStrengthMultiplier)
             modelHeightBasedEmissiveStrengthMultiplierTransition = try paintContainer.decodeIfPresent(StyleTransition.self, forKey: .modelHeightBasedEmissiveStrengthMultiplierTransition)
             modelOpacity = try paintContainer.decodeIfPresent(Value<Double>.self, forKey: .modelOpacity)
@@ -301,7 +294,6 @@ public struct ModelLayer: Layer, Equatable {
         case modelCutoffFadeRange = "model-cutoff-fade-range"
         case modelEmissiveStrength = "model-emissive-strength"
         case modelEmissiveStrengthTransition = "model-emissive-strength-transition"
-        case modelFrontCutoff = "model-front-cutoff"
         case modelHeightBasedEmissiveStrengthMultiplier = "model-height-based-emissive-strength-multiplier"
         case modelHeightBasedEmissiveStrengthMultiplierTransition = "model-height-based-emissive-strength-multiplier-transition"
         case modelOpacity = "model-opacity"
@@ -360,7 +352,7 @@ extension ModelLayer {
     /// Model to render. It can be either a string referencing an element to the models root property or an internal or external URL
     /// Default value: "".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelId(_ constant: String) -> Self {
         with(self, setter(\.modelId, .constant(constant)))
     }
@@ -368,7 +360,7 @@ extension ModelLayer {
     /// Model to render. It can be either a string referencing an element to the models root property or an internal or external URL
     /// Default value: "".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelId(_ expression: Exp) -> Self {
         with(self, setter(\.modelId, .expression(expression)))
     }
@@ -376,14 +368,14 @@ extension ModelLayer {
     /// Intensity of the ambient occlusion if present in the 3D model.
     /// Default value: 1. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelAmbientOcclusionIntensity(_ constant: Double) -> Self {
         with(self, setter(\.modelAmbientOcclusionIntensity, .constant(constant)))
     }
 
     /// Transition property for `modelAmbientOcclusionIntensity`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelAmbientOcclusionIntensityTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelAmbientOcclusionIntensityTransition, transition))
     }
@@ -391,7 +383,7 @@ extension ModelLayer {
     /// Intensity of the ambient occlusion if present in the 3D model.
     /// Default value: 1. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelAmbientOcclusionIntensity(_ expression: Exp) -> Self {
         with(self, setter(\.modelAmbientOcclusionIntensity, .expression(expression)))
     }
@@ -399,7 +391,7 @@ extension ModelLayer {
     /// Enable/Disable shadow casting for this layer
     /// Default value: true.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelCastShadows(_ constant: Bool) -> Self {
         with(self, setter(\.modelCastShadows, .constant(constant)))
     }
@@ -407,7 +399,7 @@ extension ModelLayer {
     /// Enable/Disable shadow casting for this layer
     /// Default value: true.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelCastShadows(_ expression: Exp) -> Self {
         with(self, setter(\.modelCastShadows, .expression(expression)))
     }
@@ -415,7 +407,7 @@ extension ModelLayer {
     /// The tint color of the model layer. model-color-mix-intensity (defaults to 0) defines tint(mix) intensity - this means that, this color is not used unless model-color-mix-intensity gets value greater than 0.
     /// Default value: "#ffffff".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColor(_ constant: StyleColor) -> Self {
         with(self, setter(\.modelColor, .constant(constant)))
     }
@@ -423,14 +415,14 @@ extension ModelLayer {
     /// The tint color of the model layer. model-color-mix-intensity (defaults to 0) defines tint(mix) intensity - this means that, this color is not used unless model-color-mix-intensity gets value greater than 0.
     /// Default value: "#ffffff".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColor(_ color: UIColor) -> Self {
         with(self, setter(\.modelColor, .constant(StyleColor(color))))
     }
 
     /// Transition property for `modelColor`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColorTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelColorTransition, transition))
     }
@@ -438,7 +430,7 @@ extension ModelLayer {
     /// The tint color of the model layer. model-color-mix-intensity (defaults to 0) defines tint(mix) intensity - this means that, this color is not used unless model-color-mix-intensity gets value greater than 0.
     /// Default value: "#ffffff".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColor(_ expression: Exp) -> Self {
         with(self, setter(\.modelColor, .expression(expression)))
     }
@@ -446,14 +438,14 @@ extension ModelLayer {
     /// Intensity of model-color (on a scale from 0 to 1) in color mix with original 3D model's colors. Higher number will present a higher model-color contribution in mix.
     /// Default value: 0. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColorMixIntensity(_ constant: Double) -> Self {
         with(self, setter(\.modelColorMixIntensity, .constant(constant)))
     }
 
     /// Transition property for `modelColorMixIntensity`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColorMixIntensityTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelColorMixIntensityTransition, transition))
     }
@@ -461,7 +453,7 @@ extension ModelLayer {
     /// Intensity of model-color (on a scale from 0 to 1) in color mix with original 3D model's colors. Higher number will present a higher model-color contribution in mix.
     /// Default value: 0. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelColorMixIntensity(_ expression: Exp) -> Self {
         with(self, setter(\.modelColorMixIntensity, .expression(expression)))
     }
@@ -469,7 +461,7 @@ extension ModelLayer {
     /// This parameter defines the range for the fade-out effect before an automatic content cutoff  on pitched map views. The automatic cutoff range is calculated according to the minimum required zoom level of the source and layer. The fade range is expressed in relation to the height of the map view. A value of 1.0 indicates that the content is faded to the same extent as the map's height in pixels, while a value close to zero represents a sharp cutoff. When the value is set to 0.0, the cutoff is completely disabled. Note: The property has no effect on the map if terrain is enabled.
     /// Default value: 0. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelCutoffFadeRange(_ constant: Double) -> Self {
         with(self, setter(\.modelCutoffFadeRange, .constant(constant)))
     }
@@ -477,7 +469,7 @@ extension ModelLayer {
     /// This parameter defines the range for the fade-out effect before an automatic content cutoff  on pitched map views. The automatic cutoff range is calculated according to the minimum required zoom level of the source and layer. The fade range is expressed in relation to the height of the map view. A value of 1.0 indicates that the content is faded to the same extent as the map's height in pixels, while a value close to zero represents a sharp cutoff. When the value is set to 0.0, the cutoff is completely disabled. Note: The property has no effect on the map if terrain is enabled.
     /// Default value: 0. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelCutoffFadeRange(_ expression: Exp) -> Self {
         with(self, setter(\.modelCutoffFadeRange, .expression(expression)))
     }
@@ -485,14 +477,14 @@ extension ModelLayer {
     /// Strength of the emission. There is no emission for value 0. For value 1.0, only emissive component (no shading) is displayed and values above 1.0 produce light contribution to surrounding area, for some of the parts (e.g. doors). Expressions that depend on measure-light are not supported when using GeoJSON or vector tile as the model layer source.
     /// Default value: 0. Value range: [0, 5]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelEmissiveStrength(_ constant: Double) -> Self {
         with(self, setter(\.modelEmissiveStrength, .constant(constant)))
     }
 
     /// Transition property for `modelEmissiveStrength`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelEmissiveStrengthTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelEmissiveStrengthTransition, transition))
     }
@@ -500,38 +492,22 @@ extension ModelLayer {
     /// Strength of the emission. There is no emission for value 0. For value 1.0, only emissive component (no shading) is displayed and values above 1.0 produce light contribution to surrounding area, for some of the parts (e.g. doors). Expressions that depend on measure-light are not supported when using GeoJSON or vector tile as the model layer source.
     /// Default value: 0. Value range: [0, 5]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelEmissiveStrength(_ expression: Exp) -> Self {
         with(self, setter(\.modelEmissiveStrength, .expression(expression)))
-    }
-
-    /// An array for configuring the fade-out effect for the front cutoff of content on pitched map views. It contains three values: start, range and final opacity. The start parameter defines the point at which the fade-out effect begins, with smaller values causing the effect to start earlier. The range parameter specifies how long the fade-out effect will last. A value of 0.0 for range makes content disappear immediately without a fade-out effect. The final opacity determines content opacity at the end of the fade-out effect. A value of 1.0 for final opacity means that the cutoff is completely disabled.
-    /// Default value: [0,0,1]. Minimum value: [0,0,0]. Maximum value: [1,1,1].
-    @_documentation(visibility: public)
-    @_spi(Experimental)
-    public func modelFrontCutoff(start: Double, range: Double, end: Double) -> Self {
-        with(self, setter(\.modelFrontCutoff, .constant([start, range, end])))
-    }
-
-    /// An array for configuring the fade-out effect for the front cutoff of content on pitched map views. It contains three values: start, range and final opacity. The start parameter defines the point at which the fade-out effect begins, with smaller values causing the effect to start earlier. The range parameter specifies how long the fade-out effect will last. A value of 0.0 for range makes content disappear immediately without a fade-out effect. The final opacity determines content opacity at the end of the fade-out effect. A value of 1.0 for final opacity means that the cutoff is completely disabled.
-    /// Default value: [0,0,1]. Minimum value: [0,0,0]. Maximum value: [1,1,1].
-    @_documentation(visibility: public)
-    @_spi(Experimental)
-    public func modelFrontCutoff(_ expression: Exp) -> Self {
-        with(self, setter(\.modelFrontCutoff, .expression(expression)))
     }
 
     /// Emissive strength multiplier along model height (gradient begin, gradient end, value at begin, value at end, gradient curve power (logarithmic scale, curve power = pow(10, val)).
     /// Default value: [1,1,1,1,0].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelHeightBasedEmissiveStrengthMultiplier(gradientBegin: Double, gradientEnd: Double, valueAtBegin: Double, valueAtEnd: Double, gradientCurvePower: Double) -> Self {
         with(self, setter(\.modelHeightBasedEmissiveStrengthMultiplier, .constant([gradientBegin, gradientEnd, valueAtBegin, valueAtEnd, gradientCurvePower])))
     }
 
     /// Transition property for `modelHeightBasedEmissiveStrengthMultiplier`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelHeightBasedEmissiveStrengthMultiplierTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelHeightBasedEmissiveStrengthMultiplierTransition, transition))
     }
@@ -539,7 +515,7 @@ extension ModelLayer {
     /// Emissive strength multiplier along model height (gradient begin, gradient end, value at begin, value at end, gradient curve power (logarithmic scale, curve power = pow(10, val)).
     /// Default value: [1,1,1,1,0].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelHeightBasedEmissiveStrengthMultiplier(_ expression: Exp) -> Self {
         with(self, setter(\.modelHeightBasedEmissiveStrengthMultiplier, .expression(expression)))
     }
@@ -547,14 +523,14 @@ extension ModelLayer {
     /// The opacity of the model layer.
     /// Default value: 1. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelOpacity(_ constant: Double) -> Self {
         with(self, setter(\.modelOpacity, .constant(constant)))
     }
 
     /// Transition property for `modelOpacity`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelOpacityTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelOpacityTransition, transition))
     }
@@ -562,7 +538,7 @@ extension ModelLayer {
     /// The opacity of the model layer.
     /// Default value: 1. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelOpacity(_ expression: Exp) -> Self {
         with(self, setter(\.modelOpacity, .expression(expression)))
     }
@@ -570,7 +546,7 @@ extension ModelLayer {
     /// Enable/Disable shadow receiving for this layer
     /// Default value: true.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelReceiveShadows(_ constant: Bool) -> Self {
         with(self, setter(\.modelReceiveShadows, .constant(constant)))
     }
@@ -578,7 +554,7 @@ extension ModelLayer {
     /// Enable/Disable shadow receiving for this layer
     /// Default value: true.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelReceiveShadows(_ expression: Exp) -> Self {
         with(self, setter(\.modelReceiveShadows, .expression(expression)))
     }
@@ -586,14 +562,14 @@ extension ModelLayer {
     /// The rotation of the model in euler angles [lon, lat, z].
     /// Default value: [0,0,0].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelRotation(x: Double, y: Double, z: Double) -> Self {
         with(self, setter(\.modelRotation, .constant([x, y, z])))
     }
 
     /// Transition property for `modelRotation`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelRotationTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelRotationTransition, transition))
     }
@@ -601,7 +577,7 @@ extension ModelLayer {
     /// The rotation of the model in euler angles [lon, lat, z].
     /// Default value: [0,0,0].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelRotation(_ expression: Exp) -> Self {
         with(self, setter(\.modelRotation, .expression(expression)))
     }
@@ -609,14 +585,14 @@ extension ModelLayer {
     /// Material roughness. Material is fully smooth for value 0, and fully rough for value 1. Affects only layers using batched-model source.
     /// Default value: 1. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelRoughness(_ constant: Double) -> Self {
         with(self, setter(\.modelRoughness, .constant(constant)))
     }
 
     /// Transition property for `modelRoughness`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelRoughnessTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelRoughnessTransition, transition))
     }
@@ -624,7 +600,7 @@ extension ModelLayer {
     /// Material roughness. Material is fully smooth for value 0, and fully rough for value 1. Affects only layers using batched-model source.
     /// Default value: 1. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelRoughness(_ expression: Exp) -> Self {
         with(self, setter(\.modelRoughness, .expression(expression)))
     }
@@ -632,14 +608,14 @@ extension ModelLayer {
     /// The scale of the model.
     /// Default value: [1,1,1].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelScale(x: Double, y: Double, z: Double) -> Self {
         with(self, setter(\.modelScale, .constant([x, y, z])))
     }
 
     /// Transition property for `modelScale`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelScaleTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelScaleTransition, transition))
     }
@@ -647,7 +623,7 @@ extension ModelLayer {
     /// The scale of the model.
     /// Default value: [1,1,1].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelScale(_ expression: Exp) -> Self {
         with(self, setter(\.modelScale, .expression(expression)))
     }
@@ -655,7 +631,7 @@ extension ModelLayer {
     /// Defines scaling mode. Only applies to location-indicator type layers.
     /// Default value: "map".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelScaleMode(_ constant: ModelScaleMode) -> Self {
         with(self, setter(\.modelScaleMode, .constant(constant)))
     }
@@ -663,7 +639,7 @@ extension ModelLayer {
     /// Defines scaling mode. Only applies to location-indicator type layers.
     /// Default value: "map".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelScaleMode(_ expression: Exp) -> Self {
         with(self, setter(\.modelScaleMode, .expression(expression)))
     }
@@ -671,14 +647,14 @@ extension ModelLayer {
     /// The translation of the model in meters in form of [longitudal, latitudal, altitude] offsets.
     /// Default value: [0,0,0].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelTranslation(x: Double, y: Double, z: Double) -> Self {
         with(self, setter(\.modelTranslation, .constant([x, y, z])))
     }
 
     /// Transition property for `modelTranslation`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelTranslationTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.modelTranslationTransition, transition))
     }
@@ -686,7 +662,7 @@ extension ModelLayer {
     /// The translation of the model in meters in form of [longitudal, latitudal, altitude] offsets.
     /// Default value: [0,0,0].
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelTranslation(_ expression: Exp) -> Self {
         with(self, setter(\.modelTranslation, .expression(expression)))
     }
@@ -694,7 +670,7 @@ extension ModelLayer {
     /// Defines rendering behavior of model in respect to other 3D scene objects.
     /// Default value: "common-3d".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelType(_ constant: ModelType) -> Self {
         with(self, setter(\.modelType, .constant(constant)))
     }
@@ -702,7 +678,7 @@ extension ModelLayer {
     /// Defines rendering behavior of model in respect to other 3D scene objects.
     /// Default value: "common-3d".
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func modelType(_ expression: Exp) -> Self {
         with(self, setter(\.modelType, .expression(expression)))
     }

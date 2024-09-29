@@ -1,5 +1,5 @@
 import UIKit
-import MapboxMaps
+@_spi(Experimental) import MapboxMaps
 
 final class BasicMapExample: UIViewController, ExampleProtocol {
     private var mapView: MapView!
@@ -20,6 +20,7 @@ final class BasicMapExample: UIViewController, ExampleProtocol {
         mapView.ornaments.options.scaleBar.visibility = .visible
 
         view.addSubview(mapView)
+
     }
 
     override func viewDidAppear(_ animated: Bool) {

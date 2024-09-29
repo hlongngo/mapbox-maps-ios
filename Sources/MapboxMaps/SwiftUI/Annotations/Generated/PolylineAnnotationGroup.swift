@@ -34,6 +34,8 @@
 ///     .slot("middle")
 /// }
 /// ```
+import UIKit
+
 @available(iOS 13.0, *)
 public struct PolylineAnnotationGroup<Data: RandomAccessCollection, ID: Hashable> {
     let annotations: [(ID, PolylineAnnotation)]
@@ -75,15 +77,29 @@ public struct PolylineAnnotationGroup<Data: RandomAccessCollection, ID: Hashable
 
     private func updateProperties(manager: PolylineAnnotationManager) {
         assign(manager, \.lineCap, value: lineCap)
+        assign(manager, \.lineJoin, value: lineJoin)
         assign(manager, \.lineMiterLimit, value: lineMiterLimit)
         assign(manager, \.lineRoundLimit, value: lineRoundLimit)
+        assign(manager, \.lineSortKey, value: lineSortKey)
+        assign(manager, \.lineZOffset, value: lineZOffset)
+        assign(manager, \.lineBlur, value: lineBlur)
+        assign(manager, \.lineBorderColor, value: lineBorderColor)
+        assign(manager, \.lineBorderWidth, value: lineBorderWidth)
+        assign(manager, \.lineColor, value: lineColor)
         assign(manager, \.lineDasharray, value: lineDasharray)
         assign(manager, \.lineDepthOcclusionFactor, value: lineDepthOcclusionFactor)
         assign(manager, \.lineEmissiveStrength, value: lineEmissiveStrength)
+        assign(manager, \.lineGapWidth, value: lineGapWidth)
         assign(manager, \.lineOcclusionOpacity, value: lineOcclusionOpacity)
+        assign(manager, \.lineOffset, value: lineOffset)
+        assign(manager, \.lineOpacity, value: lineOpacity)
+        assign(manager, \.linePattern, value: linePattern)
         assign(manager, \.lineTranslate, value: lineTranslate)
         assign(manager, \.lineTranslateAnchor, value: lineTranslateAnchor)
+        assign(manager, \.lineTrimColor, value: lineTrimColor)
+        assign(manager, \.lineTrimFadeRange, value: lineTrimFadeRange)
         assign(manager, \.lineTrimOffset, value: lineTrimOffset)
+        assign(manager, \.lineWidth, value: lineWidth)
         assign(manager, \.slot, value: slot)
     }
 
@@ -94,6 +110,13 @@ public struct PolylineAnnotationGroup<Data: RandomAccessCollection, ID: Hashable
     /// Default value: "butt".
     public func lineCap(_ newValue: LineCap) -> Self {
         with(self, setter(\.lineCap, newValue))
+    }
+
+    private var lineJoin: LineJoin?
+    /// The display of lines when joining.
+    /// Default value: "miter".
+    public func lineJoin(_ newValue: LineJoin) -> Self {
+        with(self, setter(\.lineJoin, newValue))
     }
 
     private var lineMiterLimit: Double?
@@ -108,6 +131,48 @@ public struct PolylineAnnotationGroup<Data: RandomAccessCollection, ID: Hashable
     /// Default value: 1.05.
     public func lineRoundLimit(_ newValue: Double) -> Self {
         with(self, setter(\.lineRoundLimit, newValue))
+    }
+
+    private var lineSortKey: Double?
+    /// Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.
+    public func lineSortKey(_ newValue: Double) -> Self {
+        with(self, setter(\.lineSortKey, newValue))
+    }
+
+    private var lineZOffset: Double?
+    /// Vertical offset from ground, in meters. Defaults to 0. Not supported for globe projection at the moment.
+    @_documentation(visibility: public)
+    
+    public func lineZOffset(_ newValue: Double) -> Self {
+        with(self, setter(\.lineZOffset, newValue))
+    }
+
+    private var lineBlur: Double?
+    /// Blur applied to the line, in pixels.
+    /// Default value: 0. Minimum value: 0.
+    public func lineBlur(_ newValue: Double) -> Self {
+        with(self, setter(\.lineBlur, newValue))
+    }
+
+    private var lineBorderColor: StyleColor?
+    /// The color of the line border. If line-border-width is greater than zero and the alpha value of this color is 0 (default), the color for the border will be selected automatically based on the line color.
+    /// Default value: "rgba(0, 0, 0, 0)".
+    public func lineBorderColor(_ color: UIColor) -> Self {
+        with(self, setter(\.lineBorderColor, StyleColor(color)))
+    }
+
+    private var lineBorderWidth: Double?
+    /// The width of the line border. A value of zero means no border.
+    /// Default value: 0. Minimum value: 0.
+    public func lineBorderWidth(_ newValue: Double) -> Self {
+        with(self, setter(\.lineBorderWidth, newValue))
+    }
+
+    private var lineColor: StyleColor?
+    /// The color with which the line will be drawn.
+    /// Default value: "#000000".
+    public func lineColor(_ color: UIColor) -> Self {
+        with(self, setter(\.lineColor, StyleColor(color)))
     }
 
     private var lineDasharray: [Double]?
@@ -131,11 +196,38 @@ public struct PolylineAnnotationGroup<Data: RandomAccessCollection, ID: Hashable
         with(self, setter(\.lineEmissiveStrength, newValue))
     }
 
+    private var lineGapWidth: Double?
+    /// Draws a line casing outside of a line's actual path. Value indicates the width of the inner gap.
+    /// Default value: 0. Minimum value: 0.
+    public func lineGapWidth(_ newValue: Double) -> Self {
+        with(self, setter(\.lineGapWidth, newValue))
+    }
+
     private var lineOcclusionOpacity: Double?
     /// Opacity multiplier (multiplies line-opacity value) of the line part that is occluded by 3D objects. Value 0 hides occluded part, value 1 means the same opacity as non-occluded part. The property is not supported when `line-opacity` has data-driven styling.
     /// Default value: 0. Value range: [0, 1]
     public func lineOcclusionOpacity(_ newValue: Double) -> Self {
         with(self, setter(\.lineOcclusionOpacity, newValue))
+    }
+
+    private var lineOffset: Double?
+    /// The line's offset. For linear features, a positive value offsets the line to the right, relative to the direction of the line, and a negative value to the left. For polygon features, a positive value results in an inset, and a negative value results in an outset.
+    /// Default value: 0.
+    public func lineOffset(_ newValue: Double) -> Self {
+        with(self, setter(\.lineOffset, newValue))
+    }
+
+    private var lineOpacity: Double?
+    /// The opacity at which the line will be drawn.
+    /// Default value: 1. Value range: [0, 1]
+    public func lineOpacity(_ newValue: Double) -> Self {
+        with(self, setter(\.lineOpacity, newValue))
+    }
+
+    private var linePattern: String?
+    /// Name of image in sprite to use for drawing image lines. For seamless patterns, image width must be a factor of two (2, 4, 8, ..., 512). Note that zoom-dependent expressions will be evaluated only at integer zoom levels.
+    public func linePattern(_ newValue: String) -> Self {
+        with(self, setter(\.linePattern, newValue))
     }
 
     private var lineTranslate: [Double]?
@@ -152,11 +244,36 @@ public struct PolylineAnnotationGroup<Data: RandomAccessCollection, ID: Hashable
         with(self, setter(\.lineTranslateAnchor, newValue))
     }
 
+    private var lineTrimColor: StyleColor?
+    /// The color to be used for rendering the trimmed line section that is defined by the `line-trim-offset` property.
+    /// Default value: "transparent".
+    @_documentation(visibility: public)
+    
+    public func lineTrimColor(_ color: UIColor) -> Self {
+        with(self, setter(\.lineTrimColor, StyleColor(color)))
+    }
+
+    private var lineTrimFadeRange: [Double]?
+    /// The fade range for the trim-start and trim-end points is defined by the `line-trim-offset` property. The first element of the array represents the fade range from the trim-start point toward the end of the line, while the second element defines the fade range from the trim-end point toward the beginning of the line. The fade result is achieved by interpolating between `line-trim-color` and the color specified by the `line-color` or the `line-gradient` property.
+    /// Default value: [0,0]. Minimum value: [0,0]. Maximum value: [1,1].
+    @_documentation(visibility: public)
+    
+    public func lineTrimFadeRange(_ newValue: [Double]) -> Self {
+        with(self, setter(\.lineTrimFadeRange, newValue))
+    }
+
     private var lineTrimOffset: [Double]?
-    /// The line part between [trim-start, trim-end] will be marked as transparent to make a route vanishing effect. The line trim-off offset is based on the whole line range [0.0, 1.0].
+    /// The line part between [trim-start, trim-end] will be painted using `line-trim-color,` which is transparent by default to produce a route vanishing effect. The line trim-off offset is based on the whole line range [0.0, 1.0].
     /// Default value: [0,0]. Minimum value: [0,0]. Maximum value: [1,1].
     public func lineTrimOffset(_ newValue: [Double]) -> Self {
         with(self, setter(\.lineTrimOffset, newValue))
+    }
+
+    private var lineWidth: Double?
+    /// Stroke thickness.
+    /// Default value: 1. Minimum value: 0.
+    public func lineWidth(_ newValue: Double) -> Self {
+        with(self, setter(\.lineWidth, newValue))
     }
 
     private var slot: String?
@@ -189,18 +306,6 @@ extension PolylineAnnotationGroup: MapContent, PrimitiveMapContent {
             updateProperties: updateProperties
         )
         node.mount(group)
-    }
-}
-
-@available(iOS 13.0, *)
-extension PolylineAnnotationManager: MapContentAnnotationManager {
-    static func make(
-        layerId: String,
-        layerPosition: LayerPosition?,
-        clusterOptions: ClusterOptions? = nil,
-        using orchestrator: AnnotationOrchestrator
-    ) -> Self {
-        orchestrator.makePolylineAnnotationManager(id: layerId, layerPosition: layerPosition) as! Self
     }
 }
 

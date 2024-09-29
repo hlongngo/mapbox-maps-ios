@@ -1,8 +1,8 @@
 import UIKit
 
-@_spi(Experimental)
+
 /// An image to be used in the Style
-public struct StyleImage: Equatable {
+public struct StyleImage: Equatable, Sendable {
 
     /// The ID of the image.
     var id: String

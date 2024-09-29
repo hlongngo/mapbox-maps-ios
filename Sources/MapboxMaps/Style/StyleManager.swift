@@ -1308,7 +1308,7 @@ public class StyleManager {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     @_documentation(visibility: public)
-    @_spi(Experimental) public func addStyleModel(modelId: String, modelUri: String) throws {
+     public func addStyleModel(modelId: String, modelUri: String) throws {
         try handleExpected {
             styleManager.addStyleModel(forModelId: modelId, modelUri: modelUri)
         }
@@ -1322,7 +1322,7 @@ public class StyleManager {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     @_documentation(visibility: public)
-    @_spi(Experimental) public func removeStyleModel(modelId: String) throws {
+     public func removeStyleModel(modelId: String) throws {
         try handleExpected {
             styleManager.removeStyleModel(forModelId: modelId)
         }
@@ -1336,7 +1336,7 @@ public class StyleManager {
     /// - Returns:
     ///     True if model exists, false otherwise.
     @_documentation(visibility: public)
-    @_spi(Experimental) public func hasStyleModel(modelId: String) -> Bool {
+     public func hasStyleModel(modelId: String) -> Bool {
         return styleManager.hasStyleModel(forModelId: modelId)
     }
 
@@ -1414,7 +1414,7 @@ public class StyleManager {
     ///
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
-    @_spi(Experimental) public func addCustomRasterSource(forSourceId sourceId: String, options: CustomRasterSourceOptions) throws {
+     public func addCustomRasterSource(forSourceId sourceId: String, options: CustomRasterSourceOptions) throws {
         try handleExpected {
             return styleManager.addStyleCustomRasterSource(forSourceId: sourceId, options: options)
         }
@@ -1431,7 +1431,7 @@ public class StyleManager {
     ///
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
-    @_spi(Experimental) public func setCustomRasterSourceTileData(forSourceId sourceId: String, tiles: [CustomRasterSourceTileData]) throws {
+     public func setCustomRasterSourceTileData(forSourceId sourceId: String, tiles: [CustomRasterSourceTileData]) throws {
         try handleExpected {
             return styleManager.setStyleCustomRasterSourceTileDataForSourceId(sourceId, tiles: tiles)
         }
@@ -1623,6 +1623,17 @@ extension StyleManager {
     }
 }
 
+// MARK: - Fetuersets
+
+extension StyleManager {
+    /// Returns the available featuresets in the currently loaded style.
+    ///
+    /// - Note: This function should only be called after the style is fully loaded; otherwise, the result may be unreliable.
+     public var featuresets: [FeaturesetDescriptor] {
+        return styleManager.getStyleFeaturesets()
+    }
+}
+
 // MARK: - StyleTransition -
 
 /**
@@ -1630,7 +1641,7 @@ extension StyleManager {
  A transition property controls timing for the interpolation between a
  transitionable style property's previous value and new value.
  */
-public struct StyleTransition: Codable, Equatable {
+public struct StyleTransition: Codable, Equatable, Sendable {
 
     /// Disabled style transition
     public static let zero = StyleTransition(duration: 0, delay: 0)

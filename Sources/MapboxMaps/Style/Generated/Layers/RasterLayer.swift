@@ -41,7 +41,7 @@ public struct RasterLayer: Layer, Equatable {
 
     /// Displayed band of raster array source layer. Defaults to the first band if not set.
     @_documentation(visibility: public)
-    @_spi(Experimental) public var rasterArrayBand: Value<String>?
+     public var rasterArrayBand: Value<String>?
 
     /// Increase or reduce the brightness of the image. The value is the maximum brightness.
     /// Default value: 1. Value range: [0, 1]
@@ -83,11 +83,11 @@ public struct RasterLayer: Layer, Equatable {
     /// Specifies an uniform elevation from the ground, in meters.
     /// Default value: 0. Minimum value: 0.
     @_documentation(visibility: public)
-    @_spi(Experimental) public var rasterElevation: Value<Double>?
+     public var rasterElevation: Value<Double>?
 
     /// Transition options for `rasterElevation`.
     @_documentation(visibility: public)
-    @_spi(Experimental) public var rasterElevationTransition: StyleTransition?
+     public var rasterElevationTransition: StyleTransition?
 
     /// Controls the intensity of light emitted on the source features.
     /// Default value: 0. Minimum value: 0.
@@ -302,14 +302,14 @@ extension RasterLayer {
 
     /// Displayed band of raster array source layer. Defaults to the first band if not set.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterArrayBand(_ constant: String) -> Self {
         with(self, setter(\.rasterArrayBand, .constant(constant)))
     }
 
     /// Displayed band of raster array source layer. Defaults to the first band if not set.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterArrayBand(_ expression: Exp) -> Self {
         with(self, setter(\.rasterArrayBand, .expression(expression)))
     }
@@ -415,14 +415,14 @@ extension RasterLayer {
     /// Specifies an uniform elevation from the ground, in meters.
     /// Default value: 0. Minimum value: 0.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterElevation(_ constant: Double) -> Self {
         with(self, setter(\.rasterElevation, .constant(constant)))
     }
 
     /// Transition property for `rasterElevation`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterElevationTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.rasterElevationTransition, transition))
     }
@@ -430,7 +430,7 @@ extension RasterLayer {
     /// Specifies an uniform elevation from the ground, in meters.
     /// Default value: 0. Minimum value: 0.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterElevation(_ expression: Exp) -> Self {
         with(self, setter(\.rasterElevation, .expression(expression)))
     }

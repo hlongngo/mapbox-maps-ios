@@ -1,17 +1,14 @@
 // This file is generated.
 import UIKit
 
-public struct PointAnnotation: Annotation, Equatable {
-
+public struct PointAnnotation: Annotation, Equatable, AnnotationInternal {
     /// Identifier for this annotation
     internal(set) public var id: String
 
     /// The geometry backing this annotation
-    public var geometry: Geometry {
-        return .point(point)
-    }
+    public var geometry: Geometry { point.geometry }
 
-    /// The point backing this annotation
+    /// The Point backing this annotation
     public var point: Point
 
     /// Toggles the annotation's selection state.
@@ -25,7 +22,7 @@ public struct PointAnnotation: Annotation, Equatable {
     /// Handles tap gesture on this annotation.
     ///
     /// Should return `true` if the gesture is handled, or `false` to propagate it to the annotations or layers below.
-    public var tapHandler: ((MapContentGestureContext) -> Bool)? {
+    public var tapHandler: ((InteractionContext) -> Bool)? {
         get { gestureHandlers.value.tap }
         set { gestureHandlers.value.tap = newValue }
     }
@@ -33,7 +30,7 @@ public struct PointAnnotation: Annotation, Equatable {
     /// Handles long press gesture on this annotation.
     ///
     /// Should return `true` if the gesture is handled, or `false` to propagate it to the annotations or layers below.
-    public var longPressHandler: ((MapContentGestureContext) -> Bool)? {
+    public var longPressHandler: ((InteractionContext) -> Bool)? {
         get { gestureHandlers.value.longPress }
         set { gestureHandlers.value.longPress = newValue }
     }
@@ -48,7 +45,7 @@ public struct PointAnnotation: Annotation, Equatable {
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
     /// Return `true` to allow dragging to begin, or `false` to prevent it and propagate the gesture to the map's other annotations or layers.
-    public var dragBeginHandler: ((inout PointAnnotation, MapContentGestureContext) -> Bool)? {
+    public var dragBeginHandler: ((inout PointAnnotation, InteractionContext) -> Bool)? {
         get { gestureHandlers.value.dragBegin }
         set { gestureHandlers.value.dragBegin = newValue }
     }
@@ -58,7 +55,7 @@ public struct PointAnnotation: Annotation, Equatable {
     /// The handler receives the `annotation` and the `context` parameters of the gesture:
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
-    public var dragChangeHandler: ((inout PointAnnotation, MapContentGestureContext) -> Void)? {
+    public var dragChangeHandler: ((inout PointAnnotation, InteractionContext) -> Void)? {
         get { gestureHandlers.value.dragChange }
         set { gestureHandlers.value.dragChange = newValue }
     }
@@ -66,7 +63,7 @@ public struct PointAnnotation: Annotation, Equatable {
     /// The handler receives the `annotation` and the `context` parameters of the gesture:
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
-    public var dragEndHandler: ((inout PointAnnotation, MapContentGestureContext) -> Void)? {
+    public var dragEndHandler: ((inout PointAnnotation, InteractionContext) -> Void)? {
         get { gestureHandlers.value.dragEnd }
         set { gestureHandlers.value.dragEnd = newValue }
     }
@@ -113,12 +110,15 @@ public struct PointAnnotation: Annotation, Equatable {
         properties["icon-halo-color"] = iconHaloColor?.rawValue
         properties["icon-halo-width"] = iconHaloWidth
         properties["icon-image-cross-fade"] = iconImageCrossFade
+        properties["icon-occlusion-opacity"] = iconOcclusionOpacity
         properties["icon-opacity"] = iconOpacity
+        properties["symbol-z-offset"] = symbolZOffset
         properties["text-color"] = textColor?.rawValue
         properties["text-emissive-strength"] = textEmissiveStrength
         properties["text-halo-blur"] = textHaloBlur
         properties["text-halo-color"] = textHaloColor?.rawValue
         properties["text-halo-width"] = textHaloWidth
+        properties["text-occlusion-opacity"] = textOcclusionOpacity
         properties["text-opacity"] = textOpacity
         return properties
     }
@@ -134,6 +134,10 @@ public struct PointAnnotation: Annotation, Equatable {
         }
         feature.properties = properties
         return feature
+    }
+
+    mutating func drag(translation: CGPoint, in map: MapboxMapProtocol) {
+        point = GeometryType.projection(of: point, for: translation, in: map)
     }
 
     /// Create a point annotation with a `Point` and an optional identifier.
@@ -255,9 +259,17 @@ public struct PointAnnotation: Annotation, Equatable {
     /// Default value: 0. Value range: [0, 1]
     public var iconImageCrossFade: Double?
 
+    /// The opacity at which the icon will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
+    public var iconOcclusionOpacity: Double?
+
     /// The opacity at which the icon will be drawn.
     /// Default value: 1. Value range: [0, 1]
     public var iconOpacity: Double?
+
+    /// Specifies an uniform elevation from the ground, in meters.
+    /// Default value: 0. Minimum value: 0.
+    public var symbolZOffset: Double?
 
     /// The color with which the text will be drawn.
     /// Default value: "#000000".
@@ -279,6 +291,10 @@ public struct PointAnnotation: Annotation, Equatable {
     /// Default value: 0. Minimum value: 0.
     public var textHaloWidth: Double?
 
+    /// The opacity at which the text will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
+    public var textOcclusionOpacity: Double?
+
     /// The opacity at which the text will be drawn.
     /// Default value: 1. Value range: [0, 1]
     public var textOpacity: Double?
@@ -292,7 +308,6 @@ public struct PointAnnotation: Annotation, Equatable {
     }
 }
 
-@_documentation(visibility: public)
 extension PointAnnotation {
 
     /// Part of the icon placed closest to the anchor.
@@ -455,10 +470,22 @@ extension PointAnnotation {
         with(self, setter(\.iconImageCrossFade, newValue))
     }
 
+    /// The opacity at which the icon will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
+    public func iconOcclusionOpacity(_ newValue: Double) -> Self {
+        with(self, setter(\.iconOcclusionOpacity, newValue))
+    }
+
     /// The opacity at which the icon will be drawn.
     /// Default value: 1. Value range: [0, 1]
     public func iconOpacity(_ newValue: Double) -> Self {
         with(self, setter(\.iconOpacity, newValue))
+    }
+
+    /// Specifies an uniform elevation from the ground, in meters.
+    /// Default value: 0. Minimum value: 0.
+    public func symbolZOffset(_ newValue: Double) -> Self {
+        with(self, setter(\.symbolZOffset, newValue))
     }
 
     /// The color with which the text will be drawn.
@@ -503,6 +530,12 @@ extension PointAnnotation {
         with(self, setter(\.textHaloWidth, newValue))
     }
 
+    /// The opacity at which the text will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
+    public func textOcclusionOpacity(_ newValue: Double) -> Self {
+        with(self, setter(\.textOcclusionOpacity, newValue))
+    }
+
     /// The opacity at which the text will be drawn.
     /// Default value: 1. Value range: [0, 1]
     public func textOpacity(_ newValue: Double) -> Self {
@@ -526,7 +559,7 @@ extension PointAnnotation {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    public func onTapGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
+    public func onTapGesture(handler: @escaping (InteractionContext) -> Bool) -> Self {
         with(self, setter(\.tapHandler, handler))
     }
 
@@ -547,7 +580,7 @@ extension PointAnnotation {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    public func onLongPressGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
+    public func onLongPressGesture(handler: @escaping (InteractionContext) -> Bool) -> Self {
         with(self, setter(\.longPressHandler, handler))
     }
 
@@ -564,7 +597,7 @@ extension PointAnnotation {
 }
 
 @available(iOS 13.0, *)
-extension PointAnnotation: MapContent, PrimitiveMapContent, MapContentAnnotation {
+extension PointAnnotation: MapContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {
         PointAnnotationGroup { self }.visit(node)
     }

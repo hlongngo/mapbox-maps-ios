@@ -7,7 +7,7 @@ protocol UpdatableSource {
     func update(from old: Self, with manager: StyleSourceManagerProtocol) throws
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension VectorSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: VectorSource, with manager: StyleSourceManagerProtocol) throws {
@@ -28,7 +28,7 @@ extension VectorSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension RasterSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: RasterSource, with manager: StyleSourceManagerProtocol) throws {
@@ -49,7 +49,7 @@ extension RasterSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension RasterDemSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: RasterDemSource, with manager: StyleSourceManagerProtocol) throws {
@@ -70,7 +70,7 @@ extension RasterDemSource: UpdatableSource, MapStyleContent, PrimitiveMapContent
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension RasterArraySource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: RasterArraySource, with manager: StyleSourceManagerProtocol) throws {
@@ -90,7 +90,7 @@ extension RasterArraySource: UpdatableSource, MapStyleContent, PrimitiveMapConte
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension ImageSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: ImageSource, with manager: StyleSourceManagerProtocol) throws {
@@ -108,7 +108,7 @@ extension ImageSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension GeoJSONSource: UpdatableSource, MapStyleContent, PrimitiveMapContent {
     func update(from old: GeoJSONSource, with manager: StyleSourceManagerProtocol) throws {

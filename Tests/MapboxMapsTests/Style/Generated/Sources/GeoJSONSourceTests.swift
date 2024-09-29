@@ -19,6 +19,7 @@ final class GeoJSONSourceTests: XCTestCase {
         source.lineMetrics = Bool.testSourceValue()
         source.generateId = Bool.testSourceValue()
         source.promoteId = PromoteId.testSourceValue()
+        source.autoMaxZoom = Bool.testSourceValue()
         source.prefetchZoomDelta = Double.testSourceValue()
         source.tileCacheBudget = TileCacheBudgetSize.testSourceValue()
 
@@ -50,6 +51,7 @@ final class GeoJSONSourceTests: XCTestCase {
             XCTAssert(decodedSource.lineMetrics == Bool.testSourceValue())
             XCTAssert(decodedSource.generateId == Bool.testSourceValue())
             XCTAssert(decodedSource.promoteId == PromoteId.testSourceValue())
+            XCTAssert(decodedSource.autoMaxZoom == Bool.testSourceValue())
             XCTAssert(decodedSource.prefetchZoomDelta == Double.testSourceValue())
             XCTAssert(decodedSource.tileCacheBudget == TileCacheBudgetSize.testSourceValue())
         } catch {

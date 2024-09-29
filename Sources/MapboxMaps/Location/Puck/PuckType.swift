@@ -9,15 +9,15 @@ public enum PuckType: Equatable {
     case puck3D(Puck3DConfiguration)
 }
 
-public struct Puck2DConfiguration: Equatable {
+public struct Puck2DConfiguration: Equatable, Sendable {
 
     /// The configuration parameters for sonar-like pulsing circle animation shown around the 2D puck.
-    public struct Pulsing: Equatable {
+    public struct Pulsing: Equatable, Sendable {
         public static let `default` = Pulsing()
 
         // swiftlint:disable nesting
         /// Circle radius configuration for the pulsing circle animation.
-        public enum Radius: Equatable {
+        public enum Radius: Equatable, Sendable {
             /// Pulsing circle should animate with the constant radius.
             case constant(Double)
             /// Pulsing circle animates with the `horizontalAccuracy` form the latest puck location.
@@ -152,7 +152,7 @@ public struct Puck2DConfiguration: Equatable {
     }
 }
 
-public struct Puck3DConfiguration: Equatable {
+public struct Puck3DConfiguration: Equatable, Sendable {
 
     /// The model to use as the locaiton puck
     public var model: Model
@@ -230,7 +230,7 @@ public struct Puck3DConfiguration: Equatable {
     ///   - modelEmissiveStrength: Strength of the light emission.
     ///   - layerPosition: Defines relative position of the puck layer.
     @_documentation(visibility: public)
-    @_spi(Experimental) public init(
+     public init(
         model: Model,
         modelScale: Value<[Double]>? = nil,
         modelRotation: Value<[Double]>? = nil,

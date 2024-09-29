@@ -5,7 +5,7 @@ import UIKit
 ///
 /// - SeeAlso: [Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/#layers-raster-particle)
 @_documentation(visibility: public)
-@_spi(Experimental) public struct RasterParticleLayer: Layer, Equatable {
+ public struct RasterParticleLayer: Layer, Equatable {
 
     // MARK: - Conformance to `Layer` protocol
     /// Unique layer name
@@ -223,35 +223,35 @@ extension RasterParticleLayer {
 
     /// Displayed band of raster array source layer
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleArrayBand(_ constant: String) -> Self {
         with(self, setter(\.rasterParticleArrayBand, .constant(constant)))
     }
 
     /// Displayed band of raster array source layer
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleArrayBand(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleArrayBand, .expression(expression)))
     }
 
     /// Defines a color map by which to colorize a raster particle layer, parameterized by the `["raster-particle-speed"]` expression and evaluated at 256 uniformly spaced steps over the range specified by `raster-particle-max-speed`.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleColor(_ constant: StyleColor) -> Self {
         with(self, setter(\.rasterParticleColor, .constant(constant)))
     }
 
     /// Defines a color map by which to colorize a raster particle layer, parameterized by the `["raster-particle-speed"]` expression and evaluated at 256 uniformly spaced steps over the range specified by `raster-particle-max-speed`.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleColor(_ color: UIColor) -> Self {
         with(self, setter(\.rasterParticleColor, .constant(StyleColor(color))))
     }
 
     /// Defines a color map by which to colorize a raster particle layer, parameterized by the `["raster-particle-speed"]` expression and evaluated at 256 uniformly spaced steps over the range specified by `raster-particle-max-speed`.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleColor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleColor, .expression(expression)))
     }
@@ -259,7 +259,7 @@ extension RasterParticleLayer {
     /// Defines the amount of particles per tile.
     /// Default value: 512. Minimum value: 1.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleCount(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleCount, .constant(constant)))
     }
@@ -267,7 +267,7 @@ extension RasterParticleLayer {
     /// Defines the amount of particles per tile.
     /// Default value: 512. Minimum value: 1.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleCount(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleCount, .expression(expression)))
     }
@@ -275,14 +275,14 @@ extension RasterParticleLayer {
     /// Defines defines the opacity coefficient applied to the faded particles in each frame. In practice, this property controls the length of the particle tail.
     /// Default value: 0.98. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleFadeOpacityFactor(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleFadeOpacityFactor, .constant(constant)))
     }
 
     /// Transition property for `rasterParticleFadeOpacityFactor`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleFadeOpacityFactorTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.rasterParticleFadeOpacityFactorTransition, transition))
     }
@@ -290,7 +290,7 @@ extension RasterParticleLayer {
     /// Defines defines the opacity coefficient applied to the faded particles in each frame. In practice, this property controls the length of the particle tail.
     /// Default value: 0.98. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleFadeOpacityFactor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleFadeOpacityFactor, .expression(expression)))
     }
@@ -298,7 +298,7 @@ extension RasterParticleLayer {
     /// Defines the maximum speed for particles. Velocities with magnitudes equal to or exceeding this value are clamped to the max value.
     /// Default value: 1. Minimum value: 1.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleMaxSpeed(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleMaxSpeed, .constant(constant)))
     }
@@ -306,7 +306,7 @@ extension RasterParticleLayer {
     /// Defines the maximum speed for particles. Velocities with magnitudes equal to or exceeding this value are clamped to the max value.
     /// Default value: 1. Minimum value: 1.
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleMaxSpeed(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleMaxSpeed, .expression(expression)))
     }
@@ -314,7 +314,7 @@ extension RasterParticleLayer {
     /// Defines a coefficient for a time period at which particles will restart at a random position, to avoid degeneration (empty areas without particles).
     /// Default value: 0.8. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleResetRateFactor(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleResetRateFactor, .constant(constant)))
     }
@@ -322,7 +322,7 @@ extension RasterParticleLayer {
     /// Defines a coefficient for a time period at which particles will restart at a random position, to avoid degeneration (empty areas without particles).
     /// Default value: 0.8. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleResetRateFactor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleResetRateFactor, .expression(expression)))
     }
@@ -330,14 +330,14 @@ extension RasterParticleLayer {
     /// Defines a coefficient for the speed of particles’ motion.
     /// Default value: 0.2. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleSpeedFactor(_ constant: Double) -> Self {
         with(self, setter(\.rasterParticleSpeedFactor, .constant(constant)))
     }
 
     /// Transition property for `rasterParticleSpeedFactor`
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleSpeedFactorTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.rasterParticleSpeedFactorTransition, transition))
     }
@@ -345,7 +345,7 @@ extension RasterParticleLayer {
     /// Defines a coefficient for the speed of particles’ motion.
     /// Default value: 0.2. Value range: [0, 1]
     @_documentation(visibility: public)
-    @_spi(Experimental)
+    
     public func rasterParticleSpeedFactor(_ expression: Exp) -> Self {
         with(self, setter(\.rasterParticleSpeedFactor, .expression(expression)))
     }

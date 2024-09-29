@@ -2,8 +2,7 @@ import MapboxCoreMaps
 
 /// Various options needed for tile cover.
     @_documentation(visibility: public)
-
-public struct TileCoverOptions {
+public struct TileCoverOptions: Sendable {
     /// Tile size of the source. Defaults to 512.
     @_documentation(visibility: public)
     public var tileSize: UInt16?

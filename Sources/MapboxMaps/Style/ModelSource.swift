@@ -1,7 +1,7 @@
 import Foundation
 
 /// A structure represeting a Model
-public struct Model: Equatable, Codable {
+public struct Model: Equatable, Codable, Sendable {
 
     /// The model's identifier
     public var id: String?
@@ -23,7 +23,7 @@ public struct Model: Equatable, Codable {
     }
 }
 
-@_spi(Experimental)
+
 @available(iOS 13.0, *)
 extension Model: MapStyleContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {

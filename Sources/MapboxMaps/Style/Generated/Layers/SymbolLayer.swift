@@ -251,14 +251,12 @@ public struct SymbolLayer: Layer, Equatable {
     /// Transition options for `iconImageCrossFade`.
     public var iconImageCrossFadeTransition: StyleTransition?
 
-    /// The opacity at which the icon will be drawn in case of being depth occluded. Not supported on globe zoom levels.
-    /// Default value: 1. Value range: [0, 1]
-    @_documentation(visibility: public)
-    @_spi(Experimental) public var iconOcclusionOpacity: Value<Double>?
+    /// The opacity at which the icon will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
+    public var iconOcclusionOpacity: Value<Double>?
 
     /// Transition options for `iconOcclusionOpacity`.
-    @_documentation(visibility: public)
-    @_spi(Experimental) public var iconOcclusionOpacityTransition: StyleTransition?
+    public var iconOcclusionOpacityTransition: StyleTransition?
 
     /// The opacity at which the icon will be drawn.
     /// Default value: 1. Value range: [0, 1]
@@ -277,6 +275,20 @@ public struct SymbolLayer: Layer, Equatable {
     /// Controls the frame of reference for `icon-translate`.
     /// Default value: "map".
     public var iconTranslateAnchor: Value<IconTranslateAnchor>?
+
+    /// Selects the base of symbol-elevation.
+    /// Default value: "ground".
+    @_documentation(visibility: public)
+     public var symbolElevationReference: Value<SymbolElevationReference>?
+
+    /// Specifies an uniform elevation from the ground, in meters.
+    /// Default value: 0. Minimum value: 0.
+    @_documentation(visibility: public)
+     public var symbolZOffset: Value<Double>?
+
+    /// Transition options for `symbolZOffset`.
+    @_documentation(visibility: public)
+     public var symbolZOffsetTransition: StyleTransition?
 
     /// The color with which the text will be drawn.
     /// Default value: "#000000".
@@ -313,14 +325,12 @@ public struct SymbolLayer: Layer, Equatable {
     /// Transition options for `textHaloWidth`.
     public var textHaloWidthTransition: StyleTransition?
 
-    /// The opacity at which the text will be drawn in case of being depth occluded. Not supported on globe zoom levels.
-    /// Default value: 1. Value range: [0, 1]
-    @_documentation(visibility: public)
-    @_spi(Experimental) public var textOcclusionOpacity: Value<Double>?
+    /// The opacity at which the text will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
+    public var textOcclusionOpacity: Value<Double>?
 
     /// Transition options for `textOcclusionOpacity`.
-    @_documentation(visibility: public)
-    @_spi(Experimental) public var textOcclusionOpacityTransition: StyleTransition?
+    public var textOcclusionOpacityTransition: StyleTransition?
 
     /// The opacity at which the text will be drawn.
     /// Default value: 1. Value range: [0, 1]
@@ -380,6 +390,9 @@ public struct SymbolLayer: Layer, Equatable {
         try paintContainer.encodeIfPresent(iconTranslate, forKey: .iconTranslate)
         try paintContainer.encodeIfPresent(iconTranslateTransition, forKey: .iconTranslateTransition)
         try paintContainer.encodeIfPresent(iconTranslateAnchor, forKey: .iconTranslateAnchor)
+        try paintContainer.encodeIfPresent(symbolElevationReference, forKey: .symbolElevationReference)
+        try paintContainer.encodeIfPresent(symbolZOffset, forKey: .symbolZOffset)
+        try paintContainer.encodeIfPresent(symbolZOffsetTransition, forKey: .symbolZOffsetTransition)
         try paintContainer.encodeIfPresent(textColor, forKey: .textColor)
         try paintContainer.encodeIfPresent(textColorTransition, forKey: .textColorTransition)
         try paintContainer.encodeIfPresent(textEmissiveStrength, forKey: .textEmissiveStrength)
@@ -477,6 +490,9 @@ public struct SymbolLayer: Layer, Equatable {
             iconTranslate = try paintContainer.decodeIfPresent(Value<[Double]>.self, forKey: .iconTranslate)
             iconTranslateTransition = try paintContainer.decodeIfPresent(StyleTransition.self, forKey: .iconTranslateTransition)
             iconTranslateAnchor = try paintContainer.decodeIfPresent(Value<IconTranslateAnchor>.self, forKey: .iconTranslateAnchor)
+            symbolElevationReference = try paintContainer.decodeIfPresent(Value<SymbolElevationReference>.self, forKey: .symbolElevationReference)
+            symbolZOffset = try paintContainer.decodeIfPresent(Value<Double>.self, forKey: .symbolZOffset)
+            symbolZOffsetTransition = try paintContainer.decodeIfPresent(StyleTransition.self, forKey: .symbolZOffsetTransition)
             textColor = try paintContainer.decodeIfPresent(Value<StyleColor>.self, forKey: .textColor)
             textColorTransition = try paintContainer.decodeIfPresent(StyleTransition.self, forKey: .textColorTransition)
             textEmissiveStrength = try paintContainer.decodeIfPresent(Value<Double>.self, forKey: .textEmissiveStrength)
@@ -626,6 +642,9 @@ public struct SymbolLayer: Layer, Equatable {
         case iconTranslate = "icon-translate"
         case iconTranslateTransition = "icon-translate-transition"
         case iconTranslateAnchor = "icon-translate-anchor"
+        case symbolElevationReference = "symbol-elevation-reference"
+        case symbolZOffset = "symbol-z-offset"
+        case symbolZOffsetTransition = "symbol-z-offset-transition"
         case textColor = "text-color"
         case textColorTransition = "text-color-transition"
         case textEmissiveStrength = "text-emissive-strength"
@@ -1308,25 +1327,19 @@ extension SymbolLayer {
         with(self, setter(\.iconImageCrossFade, .expression(expression)))
     }
 
-    /// The opacity at which the icon will be drawn in case of being depth occluded. Not supported on globe zoom levels.
-    /// Default value: 1. Value range: [0, 1]
-    @_documentation(visibility: public)
-    @_spi(Experimental)
+    /// The opacity at which the icon will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
     public func iconOcclusionOpacity(_ constant: Double) -> Self {
         with(self, setter(\.iconOcclusionOpacity, .constant(constant)))
     }
 
     /// Transition property for `iconOcclusionOpacity`
-    @_documentation(visibility: public)
-    @_spi(Experimental)
     public func iconOcclusionOpacityTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.iconOcclusionOpacityTransition, transition))
     }
 
-    /// The opacity at which the icon will be drawn in case of being depth occluded. Not supported on globe zoom levels.
-    /// Default value: 1. Value range: [0, 1]
-    @_documentation(visibility: public)
-    @_spi(Experimental)
+    /// The opacity at which the icon will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
     public func iconOcclusionOpacity(_ expression: Exp) -> Self {
         with(self, setter(\.iconOcclusionOpacity, .expression(expression)))
     }
@@ -1375,6 +1388,45 @@ extension SymbolLayer {
     /// Default value: "map".
     public func iconTranslateAnchor(_ expression: Exp) -> Self {
         with(self, setter(\.iconTranslateAnchor, .expression(expression)))
+    }
+
+    /// Selects the base of symbol-elevation.
+    /// Default value: "ground".
+    @_documentation(visibility: public)
+    
+    public func symbolElevationReference(_ constant: SymbolElevationReference) -> Self {
+        with(self, setter(\.symbolElevationReference, .constant(constant)))
+    }
+
+    /// Selects the base of symbol-elevation.
+    /// Default value: "ground".
+    @_documentation(visibility: public)
+    
+    public func symbolElevationReference(_ expression: Exp) -> Self {
+        with(self, setter(\.symbolElevationReference, .expression(expression)))
+    }
+
+    /// Specifies an uniform elevation from the ground, in meters.
+    /// Default value: 0. Minimum value: 0.
+    @_documentation(visibility: public)
+    
+    public func symbolZOffset(_ constant: Double) -> Self {
+        with(self, setter(\.symbolZOffset, .constant(constant)))
+    }
+
+    /// Transition property for `symbolZOffset`
+    @_documentation(visibility: public)
+    
+    public func symbolZOffsetTransition(_ transition: StyleTransition) -> Self {
+        with(self, setter(\.symbolZOffsetTransition, transition))
+    }
+
+    /// Specifies an uniform elevation from the ground, in meters.
+    /// Default value: 0. Minimum value: 0.
+    @_documentation(visibility: public)
+    
+    public func symbolZOffset(_ expression: Exp) -> Self {
+        with(self, setter(\.symbolZOffset, .expression(expression)))
     }
 
     /// The color with which the text will be drawn.
@@ -1474,25 +1526,19 @@ extension SymbolLayer {
         with(self, setter(\.textHaloWidth, .expression(expression)))
     }
 
-    /// The opacity at which the text will be drawn in case of being depth occluded. Not supported on globe zoom levels.
-    /// Default value: 1. Value range: [0, 1]
-    @_documentation(visibility: public)
-    @_spi(Experimental)
+    /// The opacity at which the text will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
     public func textOcclusionOpacity(_ constant: Double) -> Self {
         with(self, setter(\.textOcclusionOpacity, .constant(constant)))
     }
 
     /// Transition property for `textOcclusionOpacity`
-    @_documentation(visibility: public)
-    @_spi(Experimental)
     public func textOcclusionOpacityTransition(_ transition: StyleTransition) -> Self {
         with(self, setter(\.textOcclusionOpacityTransition, transition))
     }
 
-    /// The opacity at which the text will be drawn in case of being depth occluded. Not supported on globe zoom levels.
-    /// Default value: 1. Value range: [0, 1]
-    @_documentation(visibility: public)
-    @_spi(Experimental)
+    /// The opacity at which the text will be drawn in case of being depth occluded. Absent value means full occlusion against terrain only.
+    /// Default value: 0. Value range: [0, 1]
     public func textOcclusionOpacity(_ expression: Exp) -> Self {
         with(self, setter(\.textOcclusionOpacity, .expression(expression)))
     }

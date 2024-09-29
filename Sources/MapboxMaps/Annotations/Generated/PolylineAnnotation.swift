@@ -1,17 +1,14 @@
 // This file is generated.
 import UIKit
 
-public struct PolylineAnnotation: Annotation, Equatable {
-
+public struct PolylineAnnotation: Annotation, Equatable, AnnotationInternal {
     /// Identifier for this annotation
     internal(set) public var id: String
 
     /// The geometry backing this annotation
-    public var geometry: Geometry {
-        return .lineString(lineString)
-    }
+    public var geometry: Geometry { lineString.geometry }
 
-    /// The line string backing this annotation
+    /// The LineString backing this annotation
     public var lineString: LineString
 
     /// Toggles the annotation's selection state.
@@ -25,7 +22,7 @@ public struct PolylineAnnotation: Annotation, Equatable {
     /// Handles tap gesture on this annotation.
     ///
     /// Should return `true` if the gesture is handled, or `false` to propagate it to the annotations or layers below.
-    public var tapHandler: ((MapContentGestureContext) -> Bool)? {
+    public var tapHandler: ((InteractionContext) -> Bool)? {
         get { gestureHandlers.value.tap }
         set { gestureHandlers.value.tap = newValue }
     }
@@ -33,7 +30,7 @@ public struct PolylineAnnotation: Annotation, Equatable {
     /// Handles long press gesture on this annotation.
     ///
     /// Should return `true` if the gesture is handled, or `false` to propagate it to the annotations or layers below.
-    public var longPressHandler: ((MapContentGestureContext) -> Bool)? {
+    public var longPressHandler: ((InteractionContext) -> Bool)? {
         get { gestureHandlers.value.longPress }
         set { gestureHandlers.value.longPress = newValue }
     }
@@ -48,7 +45,7 @@ public struct PolylineAnnotation: Annotation, Equatable {
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
     /// Return `true` to allow dragging to begin, or `false` to prevent it and propagate the gesture to the map's other annotations or layers.
-    public var dragBeginHandler: ((inout PolylineAnnotation, MapContentGestureContext) -> Bool)? {
+    public var dragBeginHandler: ((inout PolylineAnnotation, InteractionContext) -> Bool)? {
         get { gestureHandlers.value.dragBegin }
         set { gestureHandlers.value.dragBegin = newValue }
     }
@@ -58,7 +55,7 @@ public struct PolylineAnnotation: Annotation, Equatable {
     /// The handler receives the `annotation` and the `context` parameters of the gesture:
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
-    public var dragChangeHandler: ((inout PolylineAnnotation, MapContentGestureContext) -> Void)? {
+    public var dragChangeHandler: ((inout PolylineAnnotation, InteractionContext) -> Void)? {
         get { gestureHandlers.value.dragChange }
         set { gestureHandlers.value.dragChange = newValue }
     }
@@ -66,7 +63,7 @@ public struct PolylineAnnotation: Annotation, Equatable {
     /// The handler receives the `annotation` and the `context` parameters of the gesture:
     /// - Use the `annotation` inout property to update properties of the annotation.
     /// - The `context` contains position of the gesture.
-    public var dragEndHandler: ((inout PolylineAnnotation, MapContentGestureContext) -> Void)? {
+    public var dragEndHandler: ((inout PolylineAnnotation, InteractionContext) -> Void)? {
         get { gestureHandlers.value.dragEnd }
         set { gestureHandlers.value.dragEnd = newValue }
     }
@@ -114,6 +111,10 @@ public struct PolylineAnnotation: Annotation, Equatable {
         }
         feature.properties = properties
         return feature
+    }
+
+    mutating func drag(translation: CGPoint, in map: MapboxMapProtocol) {
+        lineString = GeometryType.projection(of: lineString, for: translation, in: map)
     }
 
     /// Create a polyline annotation with a `LineString` and an optional identifier.
@@ -179,7 +180,6 @@ public struct PolylineAnnotation: Annotation, Equatable {
 
 }
 
-@_documentation(visibility: public)
 extension PolylineAnnotation {
 
     /// The display of lines when joining.
@@ -269,7 +269,7 @@ extension PolylineAnnotation {
     ///
     /// - Parameters:
     ///   - handler: A handler for tap gesture.
-    public func onTapGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
+    public func onTapGesture(handler: @escaping (InteractionContext) -> Bool) -> Self {
         with(self, setter(\.tapHandler, handler))
     }
 
@@ -290,7 +290,7 @@ extension PolylineAnnotation {
     ///
     /// - Parameters:
     ///   - handler: A handler for long press gesture.
-    public func onLongPressGesture(handler: @escaping (MapContentGestureContext) -> Bool) -> Self {
+    public func onLongPressGesture(handler: @escaping (InteractionContext) -> Bool) -> Self {
         with(self, setter(\.longPressHandler, handler))
     }
 
@@ -307,7 +307,7 @@ extension PolylineAnnotation {
 }
 
 @available(iOS 13.0, *)
-extension PolylineAnnotation: MapContent, PrimitiveMapContent, MapContentAnnotation {
+extension PolylineAnnotation: MapContent, PrimitiveMapContent {
     func visit(_ node: MapContentNode) {
         PolylineAnnotationGroup { self }.visit(node)
     }
